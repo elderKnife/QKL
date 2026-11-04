@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分布式能源可信存证 · 数据链路可视化</title>
+  <link rel="stylesheet" href="/static/styles.css?v=5">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">⛓</div>
+      <div class="brand-text">
+        <h1>分布式能源可信存证</h1>
+        <p>最小验证实验 · 边缘 → 虚拟电网 → FISCO 链 → 国网平台</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="chain-pill" id="chain-pill">
+        <span class="dot"></span><span id="chain-pill-text">链连接中…</span>
+      </div>
+      <button class="btn ghost" id="btn-refresh" title="刷新数据">刷新</button>
+      <button class="btn primary" id="btn-feed" title="向 4 个边缘各注入 10 条记录">发一轮数据</button>
+      <button class="btn danger" id="btn-tamper" title="选一个已核验批次，改一条记录重验">篡改实验</button>
+    </div>
+  </header>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="control-strip">
+    <div class="control-left">
+      <div class="control-title">自动采集
+        <span class="muted small">每 10 秒 · 每边缘 10 台设备</span>
+      </div>
+      <div class="collection-chips" id="collection-chips">
+        <span class="muted small">加载中…</span>
+      </div>
+    </div>
+    <div class="control-actions">
+      <button class="btn primary" id="btn-collect-start">▶ 全部开始</button>
+      <button class="btn ghost" id="btn-collect-pause">⏸ 全部暂停</button>
+    </div>
+  </section>
+
+  <section class="command-panel">
+    <div class="command-head">
+      <div>
+        <h2>国网指令下发</h2>
+        <p class="muted small">GRID 签名 → 命令锚定上链 → VPP 校验转发 → 边缘独立校验并执行 → 回执根上链 → GRID 核验</p>
+      </div>
+      <span class="muted small" id="command-count"></span>
+    </div>
+    <div class="command-form">
+      <label>边缘<select id="cmd-edge"></select></label>
+      <label>设备<select id="cmd-device"></select></label>
+      <label>动作
+        <select id="cmd-action">
+          <option value="set_voltage">设置电压</option>
+          <option value="power_on">开机</option>
+          <option value="power_off">关机</option>
+        </select>
+      </label>
+      <label id="cmd-voltage-wrap">电压 (V)
+        <input id="cmd-voltage" type="number" min="180" max="260" step="0.1" value="230.0">
+      </label>
+      <button class="btn primary" id="btn-send-command">下发指令</button>
+    </div>
+    <div class="command-table-wrap">
+      <table class="command-table">
+        <thead><tr>
+          <th>时间</th><th>指令</th><th>目标</th><th>动作</th><th>状态</th><th>命令锚定</th><th>回执锚定</th>
+        </tr></thead>
+        <tbody id="command-list"><tr><td colspan="7" class="muted">暂无指令</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="side-head">
+        <h2>批次列表</h2>
+        <span class="muted" id="batch-count">—</span>
+      </div>
+      <div class="batch-list" id="batch-list">
+        <div class="side-empty">加载中…</div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><i class="dot ok"></i>已核验</span>
+        <span class="legend-item"><i class="dot bad"></i>被拒绝</span>
+        <span class="legend-item"><i class="dot warn"></i>处理中</span>
+      </div>
+    </aside>
+
+    <section class="detail" id="detail">
+      <div class="empty-state">
+        <div class="empty-icon">◈</div>
+        <h3>选择一个批次查看完整链路</h3>
+        <p>左侧列出 VPP 收到的每个边缘包；点开后可以看到记录内容、签名、Merkle 根、链上交易与国网核验结果。</p>
+        <button class="btn primary" id="btn-feed-empty">发一轮数据试试</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="record-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="record-modal-title">
+      <div class="modal-head">
+        <div>
+          <div class="modal-kicker">设备记录 · DEVICE-RECORD-V1</div>
+          <h3 id="record-modal-title">记录详情</h3>
+          <div class="modal-sub" id="record-modal-sub"></div>
+        </div>
+        <button class="btn ghost" id="record-modal-close">关闭</button>
+      </div>
+      <div class="modal-body">
+        <section class="modal-code">
+          <div class="modal-toolbar">
+            <label class="switch">
+              <input type="checkbox" id="record-comments" checked> 在代码中显示注释
+            </label>
+            <div class="modal-actions">
+              <button class="btn ghost" id="record-copy">复制 JSON</button>
+              <button class="btn ghost" id="record-download">下载 .json</button>
+              <button class="btn ghost" id="record-download-annotated">下载注释版</button>
+            </div>
+          </div>
+          <pre class="record-code" id="record-code"></pre>
+          <div class="record-meta" id="record-meta"></div>
+        </section>
+        <aside class="modal-side">
+          <h4>字段注释</h4>
+          <div id="record-fields" class="record-fields"></div>
+          <div class="modal-note">
+            这条 JSON 是边缘包原文的一部分：对整包做 <code>CANON-JSON-V1</code>
+            规范化后签名；单条记录加叶子前缀后做 SHA-256，成为 Merkle 树的一个叶子。
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/static/app.js?v=5"></script>
+</body>
+</html>

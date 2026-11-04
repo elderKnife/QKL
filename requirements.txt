@@ -1,0 +1,14 @@
+# Direct runtime dependencies of the business services.
+# The FISCO BCOS 2.x Python SDK is vendored under vendor/python-sdk (Apache-2.0)
+# and provides eth_abi / eth_keys / rlp / eth_utils itself.
+flask>=3.0
+requests>=2.31
+ecdsa>=0.18
+pycryptodome>=3.19
+pyOpenSSL>=23.0
+toolz
+cytoolz
+lru-dict
+pymitter
+promise
+attrdict

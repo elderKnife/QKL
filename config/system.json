@@ -1,0 +1,347 @@
+{
+  "experiment": {
+    "name": "研究生A最小验证实验：边缘→VPP（不上链），VPP→国网平台（仅根哈希上链）",
+    "runId": "RUN-MINI-001",
+    "version": "0.1.0"
+  },
+  "chain": {
+    "groupId": 1,
+    "chainId": 1,
+    "rpcNodes": {
+      "node0": "http://127.0.0.1:8545",
+      "node1": "http://127.0.0.1:8546",
+      "node2": "http://127.0.0.1:8547",
+      "node3": "http://127.0.0.1:8548",
+      "node4": "http://127.0.0.1:8549"
+    },
+    "contract": {
+      "name": "RootHashRegistry",
+      "address": "",
+      "abiFile": "contracts/build/RootHashRegistry.abi"
+    }
+  },
+  "accounts": {
+    "grid": {
+      "pem": "config/keys/grid.pem",
+      "rpcNode": "node0"
+    },
+    "vppA": {
+      "pem": "config/keys/vpp-a.pem",
+      "rpcNode": "node1"
+    },
+    "vppB": {
+      "pem": "config/keys/vpp-b.pem",
+      "rpcNode": "node2"
+    }
+  },
+  "edges": [
+    {
+      "edgeId": "edge-01",
+      "vppId": "vpp-a",
+      "port": 8101,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-01.pem",
+      "keyId": "edge-01-key-v1",
+      "devices": [
+        {
+          "deviceId": "PV-101",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-102",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-103",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-104",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-101",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-102",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-103",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-101",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-102",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-103",
+          "deviceType": "charger"
+        }
+      ],
+      "recordsPerPacket": 10,
+      "intervalSeconds": 10,
+      "autoStart": false,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    },
+    {
+      "edgeId": "edge-02",
+      "vppId": "vpp-a",
+      "port": 8102,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-02.pem",
+      "keyId": "edge-02-key-v1",
+      "devices": [
+        {
+          "deviceId": "PV-201",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-202",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-203",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-204",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-201",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-202",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-203",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-201",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-202",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-203",
+          "deviceType": "charger"
+        }
+      ],
+      "recordsPerPacket": 10,
+      "intervalSeconds": 10,
+      "autoStart": false,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    },
+    {
+      "edgeId": "edge-03",
+      "vppId": "vpp-b",
+      "port": 8103,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-03.pem",
+      "keyId": "edge-03-key-v1",
+      "devices": [
+        {
+          "deviceId": "PV-301",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-302",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-303",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-304",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-301",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-302",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-303",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-301",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-302",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-303",
+          "deviceType": "charger"
+        }
+      ],
+      "recordsPerPacket": 10,
+      "intervalSeconds": 10,
+      "autoStart": false,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    },
+    {
+      "edgeId": "edge-04",
+      "vppId": "vpp-b",
+      "port": 8104,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-04.pem",
+      "keyId": "edge-04-key-v1",
+      "devices": [
+        {
+          "deviceId": "PV-401",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-402",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-403",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-404",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-401",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-402",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-403",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-401",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-402",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-403",
+          "deviceType": "charger"
+        }
+      ],
+      "recordsPerPacket": 10,
+      "intervalSeconds": 10,
+      "autoStart": false,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    }
+  ],
+  "vpps": [
+    {
+      "vppId": "vpp-a",
+      "port": 8201,
+      "gridUrl": "http://127.0.0.1:8301",
+      "rpcNode": "node1",
+      "signingKey": "config/keys/vpp-a.pem",
+      "keyId": "vpp-a-key-v1",
+      "trustedEdges": {
+        "edge-01": {
+          "keyId": "edge-01-key-v1",
+          "publicKey": "04a85881eb2d94d94d6d095d88a1318a7d3186f94fb7e24f23c7f58c50327e210e06cef082bfa01e60334067b943a087ea3ba52b4f3bf7596a4f00aea88f892c53"
+        },
+        "edge-02": {
+          "keyId": "edge-02-key-v1",
+          "publicKey": "0445317f2fc7e93df11c4739f1a716a5f30dca6647a0c0100a29f76c3adcfca676ca2843d7ab2c3cc64d093a5788d45e5cd6c33b72096437a8b695c8529b28a903"
+        }
+      },
+      "chainAccount": "vppA",
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    },
+    {
+      "vppId": "vpp-b",
+      "port": 8202,
+      "gridUrl": "http://127.0.0.1:8301",
+      "rpcNode": "node2",
+      "signingKey": "config/keys/vpp-b.pem",
+      "keyId": "vpp-b-key-v1",
+      "trustedEdges": {
+        "edge-03": {
+          "keyId": "edge-03-key-v1",
+          "publicKey": "0492d9dd17fbfb12576a5a2579880488b8f41e01a84de3ed1ec5066d0abb81e0205de691a4e8ab9293b3778ef32af8fb2e0aa22fd810cd469fd29048f4ccaa010a"
+        },
+        "edge-04": {
+          "keyId": "edge-04-key-v1",
+          "publicKey": "040cabb4e5d896892253c072645e5a5f98b734e8a2b11b7ae9a9e84f3acc6ebe361452dda0bbfd277088431c55fb3607dd44eede27a18580339ab26a0e09257228"
+        }
+      },
+      "chainAccount": "vppB",
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    }
+  ],
+  "grid": {
+    "port": 8301,
+    "rpcNode": "node3",
+    "signingKey": "config/keys/grid.pem",
+    "keyId": "grid-key-v1",
+    "trustedVpps": {
+      "vpp-a": {
+        "keyId": "vpp-a-key-v1",
+        "publicKey": "046893032197874b14d89b5248ab60535f02e92976bec751300c4d39084e0a6fad9b4af94e5f6c88173b79fda594ac6c68644bc46816426fc86bf598746cec0021"
+      },
+      "vpp-b": {
+        "keyId": "vpp-b-key-v1",
+        "publicKey": "04a2be672c781bdd977320b9ba466cd44f763be08317dd2c0e61f4a2c3f642607b707302c107ee4d9c4f3b7b66c02968f6e20ff307b37f231bc13f5203d6ea1c51"
+      }
+    },
+    "gridId": "grid",
+    "commandTtlSeconds": 120
+  },
+  "edge": {
+    "maxBufferRecords": 400,
+    "defaultIntervalSeconds": 10
+  },
+  "web": {
+    "port": 8400,
+    "description": "只读聚合可视化面板"
+  }
+}

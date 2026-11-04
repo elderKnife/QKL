@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+logs/
+data/
+chain/nodes/
+contracts/build/
+config/keys/
+*.log
+.idea/
+.DS_Store
+chain/bin/
+tools/solc
