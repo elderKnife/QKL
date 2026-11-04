@@ -1,5 +1,7 @@
 # 分布式能源可信存证 —— 研究生A 最小验证实验
 
+仓库：<https://github.com/elderKnife/QKL>
+
 本目录实现《研究生A开发任务书 v1.0》要求的最小闭环验证，**只覆盖本次明确要求的范围**：
 
 | 项 | 本实验的实现 |
@@ -90,6 +92,24 @@ cd /Users/zyd/PycharmProjects/QKL
 停止：`./scripts/stop_services.sh`、`./scripts/stop_chain.sh`。
 本地状态归档重置：`./scripts/reset_local_state.sh`（**不删除链上或历史证据**）。
 
+### 在另一台电脑上从零运行
+
+仓库不含私钥、链节点数据、二进制与编译产物，新机器上需要 6 步：
+
+```bash
+git clone https://github.com/elderKnife/QKL.git && cd QKL
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/gen_accounts.py        # 生成测试身份并同步公钥
+# 下载 chain/bin/fisco-bcos（2.11.0）与 tools/solc（0.6.10），见文档
+./scripts/compile_contract.sh
+/opt/homebrew/bin/bash chain/build_chain.sh -l 127.0.0.1:5 -p 30300,20200,8545 -e ./bin/fisco-bcos -o ./nodes
+./scripts/start_chain.sh && .venv/bin/python scripts/deploy_contract.py
+./scripts/start_services.sh                      # 打开 http://127.0.0.1:8400
+```
+
+完整的分平台步骤、下载地址、常见问题见
+**[docs/07-在其他电脑上运行.md](docs/07-在其他电脑上运行.md)**。
+
 ### 端口表
 
 | 角色 | 端口 | 说明 |
@@ -166,3 +186,5 @@ cd /Users/zyd/PycharmProjects/QKL
 - [数据协议](docs/03-数据协议.md)
 - [FISCO 链部署与证据](docs/04-FISCO链部署与证据.md)
 - [测试与验证记录](docs/05-测试与验证记录.md)
+- [Web 可视化面板](docs/06-Web可视化面板.md)
+- [在其他电脑上运行](docs/07-在其他电脑上运行.md)
