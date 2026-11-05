@@ -326,3 +326,5 @@
 @keyframes sig-merge { 0%, 70% { opacity: 0; } 72% { opacity: 1; } 83% { opacity: 1; } 84%, 100% { opacity: 0; } }
 .merge-flash { fill: #7fe0bf; opacity: 0; transform-box: fill-box; transform-origin: center; animation: merge-flash 6s linear infinite; }
 @keyframes merge-flash { 0%, 68% { opacity: 0; transform: scale(.6); } 72% { opacity: .9; transform: scale(1.4); } 78%, 100% { opacity: 0; transform: scale(1.4); } }
+.workbench-summary.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 900px) { .workbench-summary.three { grid-template-columns: 1fr; } }
