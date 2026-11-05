@@ -303,3 +303,26 @@
 .flow-packet.p3 { animation-delay: 3.46s; }
 .flow-lane:first-child .flow-lane-head > span:first-child { color: #9a7b45; }
 .flow-lane:last-child .flow-lane-head > span:first-child { color: #3f8f7a; }
+
+/* 单信号分叉 → 上下并行 → 汇合 → GRID */
+.flow-core { display: flex; align-items: center; justify-content: center; }
+.flow-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.svg-label { font-size: 9px; font-weight: 600; letter-spacing: 1.2px; }
+.svg-label.amber { fill: #9a7b45; }
+.svg-label.green { fill: #3f8f7a; }
+.svg-sub { font-size: 8px; fill: #93a8af; letter-spacing: .3px; }
+.svg-pass-text { font-size: 9px; fill: #2f8f6f; text-anchor: middle; letter-spacing: .6px; }
+.svg-pass rect { animation: svg-pass 6s linear infinite; }
+@keyframes svg-pass { 0%, 70% { fill: #edf8f4; } 76% { fill: #c9efdf; } 86%, 100% { fill: #edf8f4; } }
+.svg-chain { animation: svg-chain 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes svg-chain { 0%, 34% { filter: none; } 42% { filter: drop-shadow(0 0 9px #7fe0bfaa); } 52%, 100% { filter: none; } }
+.sig { filter: drop-shadow(0 0 5px currentColor); }
+.sig-trunk { fill: #9fd9c8; color: #9fd9c8; animation: sig-trunk 6s linear infinite; }
+@keyframes sig-trunk { 0% { opacity: 0; } 2% { opacity: 1; } 11% { opacity: 1; } 12%, 100% { opacity: 0; } }
+.sig-upper { fill: #f2b84b; color: #f2b84b; animation: sig-lane 6s linear infinite; }
+.sig-lower { fill: #7fc9b5; color: #7fc9b5; animation: sig-lane 6s linear infinite; }
+@keyframes sig-lane { 0%, 11% { opacity: 0; } 13% { opacity: 1; } 67% { opacity: 1; } 69%, 100% { opacity: 0; } }
+.sig-merge { fill: #43bd93; color: #43bd93; animation: sig-merge 6s linear infinite; }
+@keyframes sig-merge { 0%, 70% { opacity: 0; } 72% { opacity: 1; } 83% { opacity: 1; } 84%, 100% { opacity: 0; } }
+.merge-flash { fill: #7fe0bf; opacity: 0; transform-box: fill-box; transform-origin: center; animation: merge-flash 6s linear infinite; }
+@keyframes merge-flash { 0%, 68% { opacity: 0; transform: scale(.6); } 72% { opacity: .9; transform: scale(1.4); } 78%, 100% { opacity: 0; transform: scale(1.4); } }

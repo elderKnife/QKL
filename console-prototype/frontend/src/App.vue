@@ -390,22 +390,36 @@ onUnmounted(() => { clearInterval(poll); clearInterval(tick); window.removeEvent
                 <dl class="flow-stats"><div><dt>累计批次</dt><dd>{{ gridOverview?.batchCount ?? '—' }}</dd></div><div><dt>签名算法</dt><dd>ECDSA</dd></div></dl>
               </article>
               <div class="flow-core">
-                <div class="flow-lane">
-                  <div class="flow-lane-head"><span>区块链校验</span><span class="lane-pass">PASS</span></div>
-                  <div class="chain-lane-body">
-                    <span class="lane-tag">root 上链</span>
-                    <span class="lane-line"></span>
-                    <div class="flow-chain"><span class="flow-chain-dot"></span><b>区块链校验</b></div>
-                    <span class="lane-line with-arrow"></span>
-                    <span class="lane-tag">读链核验</span>
-                    <span class="chain-signal root"></span>
-                    <span class="chain-signal verify"></span>
-                  </div>
-                </div>
-                <div class="flow-lane">
-                  <div class="flow-lane-head"><span>原始数据传输</span><em>records + proofs</em></div>
-                  <div class="flow-track"><i class="flow-packet p1"></i><i class="flow-packet p2"></i><i class="flow-packet p3"></i></div>
-                </div>
+                <svg class="flow-svg" viewBox="0 0 760 220" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <defs>
+                    <path id="flowTrunk" d="M 0 110 H 92" />
+                    <path id="flowUpper" d="M 92 110 C 124 74, 156 62, 214 62 H 548 C 606 62, 638 74, 668 110" />
+                    <path id="flowLower" d="M 92 110 C 124 146, 156 158, 214 158 H 548 C 606 158, 638 146, 668 110" />
+                    <path id="flowMerge" d="M 668 110 H 758" />
+                    <marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8fcec0" /></marker>
+                  </defs>
+                  <path d="M 92 110 C 124 146, 156 158, 214 158 H 548 C 606 158, 638 146, 668 110" fill="none" stroke="#eef8f5" stroke-width="34" stroke-linecap="round" />
+                  <path d="M 92 110 C 124 146, 156 158, 214 158 H 548 C 606 158, 638 146, 668 110" fill="none" stroke="#b7ded3" stroke-width="1" stroke-dasharray="4 4" opacity=".65" />
+                  <path d="M 92 110 C 124 74, 156 62, 214 62 H 548 C 606 62, 638 74, 668 110" fill="none" stroke="#b9dcd3" stroke-width="1" stroke-dasharray="4 4" opacity=".8" />
+                  <path d="M 0 110 H 92" fill="none" stroke="#b9dcd3" stroke-width="1" stroke-dasharray="4 4" />
+                  <path d="M 668 110 H 758" fill="none" stroke="#b9dcd3" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#flowArrow)" />
+                  <text x="18" y="26" class="svg-label amber">区块链校验</text>
+                  <text x="18" y="207" class="svg-label green">原始数据传输</text>
+                  <text x="100" y="46" class="svg-sub">root 上链</text>
+                  <text x="600" y="46" class="svg-sub">读链核验</text>
+                  <text x="548" y="148" class="svg-sub" text-anchor="end">records + proofs</text>
+                  <g class="svg-pass"><rect x="690" y="182" width="52" height="20" rx="10" fill="#edf8f4" stroke="#c6e6da" /><text x="716" y="196" class="svg-pass-text">PASS</text></g>
+                  <g class="svg-chain">
+                    <rect x="318" y="38" width="124" height="46" rx="23" fill="#173f47" stroke="#2d6663" />
+                    <circle cx="340" cy="61" r="4" fill="#7fe0bf" />
+                    <text x="396" y="66" text-anchor="middle" fill="#e3f7f1" font-size="11" letter-spacing=".5">区块链校验</text>
+                  </g>
+                  <circle r="4.5" class="sig sig-trunk"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.12;1"><mpath href="#flowTrunk" /></animateMotion></circle>
+                  <circle r="5" class="sig sig-upper"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.12;0.70;1"><mpath href="#flowUpper" /></animateMotion></circle>
+                  <rect x="-6" y="-6" width="12" height="12" rx="3" class="sig sig-lower"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.12;0.70;1"><mpath href="#flowLower" /></animateMotion></rect>
+                  <circle r="4.5" class="sig sig-merge"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.70;0.84;1"><mpath href="#flowMerge" /></animateMotion></circle>
+                  <circle cx="668" cy="110" r="7" class="merge-flash" />
+                </svg>
               </div>
               <article class="flow-node flow-grid">
                 <div class="flow-node-top"><span class="flow-node-icon"><el-icon><Files /></el-icon></span><span class="flow-kicker">VERIFIER · GRID</span></div>
