@@ -130,3 +130,101 @@
 .records-table.compact .el-table__header th.el-table__cell { padding: 9px 12px; }
 .records-table.compact .el-table__body td.el-table__cell { padding: 9px 12px; font-size: 11.5px; }
 .records-table.compact .record-id { font-size: 11px; }
+
+/* GRID 数据流向图：VPP → 链 → GRID（展示用） */
+.flow-panel { overflow: hidden; }
+.flow-map {
+  display: grid;
+  grid-template-columns: minmax(170px, 225px) minmax(300px, 1fr) minmax(170px, 225px);
+  gap: 22px;
+  align-items: stretch;
+  padding: 10px 2px 2px;
+}
+.flow-node {
+  position: relative;
+  border: 1px solid #e2edee;
+  border-radius: 14px;
+  padding: 17px 17px 15px;
+  background: linear-gradient(160deg, #ffffff 0%, #f6fbfa 100%);
+  box-shadow: 0 6px 18px rgba(23, 61, 69, .05);
+}
+.flow-node::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: 14px 0 0 14px;
+  background: #8fd2c1;
+}
+.flow-grid::before { background: #6fa9c9; }
+.flow-node-top { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+.flow-node-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: #e5f4ef; color: #3f8f7a; font-size: 17px;
+}
+.flow-grid .flow-node-icon { background: #e8f1f7; color: #4f86a8; }
+.flow-kicker { font-size: 9px; letter-spacing: 1.4px; color: #8ba2aa; font-weight: 600; }
+.flow-node h3 { margin: 0; font-size: 22px; letter-spacing: .5px; color: #203f47; }
+.flow-node p { margin: 5px 0 13px; font-size: 10px; color: #859aa2; line-height: 1.7; }
+.flow-stats { display: flex; gap: 9px; margin: 0; }
+.flow-stats div { flex: 1; background: #f2f8f7; border: 1px solid #e8f1ef; border-radius: 8px; padding: 7px 9px; }
+.flow-stats dt { font-size: 9px; color: #8ba0a7; letter-spacing: .4px; }
+.flow-stats dd { margin: 3px 0 0; font-family: Consolas, "SFMono-Regular", monospace; font-size: 13px; color: #2f6b63; }
+.flow-core { display: flex; flex-direction: column; justify-content: center; gap: 14px; min-width: 0; }
+.flow-rail-label { display: block; text-align: center; font-size: 9px; letter-spacing: .8px; color: #8aa2a9; margin-bottom: 6px; }
+.flow-track {
+  position: relative; height: 34px; border-radius: 999px; overflow: hidden;
+  background: linear-gradient(90deg, #eef8f5, #e2f3ee 50%, #eef8f5);
+  border: 1px dashed #b7ded3;
+}
+.flow-track::after {
+  content: ""; position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 8px solid #8fcec0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.flow-packet {
+  position: absolute; top: 9px; width: 15px; height: 15px; border-radius: 4px;
+  background: #7fc9b5; box-shadow: 0 3px 8px #4e9d8a55; opacity: 0;
+  animation: flow-packet 4.2s linear infinite;
+}
+.flow-packet.p2 { animation-delay: 1.4s; background: #a5dccd; }
+.flow-packet.p3 { animation-delay: 2.8s; background: #c8eadf; }
+@keyframes flow-packet {
+  0% { left: -18px; opacity: 0; }
+  8% { opacity: 1; }
+  82% { opacity: 1; }
+  100% { left: calc(100% + 18px); opacity: 0; }
+}
+.flow-chain-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.flow-stem { flex: 1; max-width: 110px; border-top: 1px dashed #b9dcd3; position: relative; height: 1px; }
+.flow-stem em { position: absolute; top: -16px; font-style: normal; font-size: 9px; color: #7f979f; white-space: nowrap; letter-spacing: .2px; }
+.flow-stem.left em { right: 6px; }
+.flow-stem.right em { left: 6px; }
+.flow-chain {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px; border-radius: 999px;
+  background: linear-gradient(135deg, #173f47, #1d5058);
+  border: 1px solid #2d6663; color: #e3f7f1;
+  box-shadow: 0 8px 20px rgba(23, 63, 71, .18);
+}
+.flow-chain-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #7fe0bf;
+  box-shadow: 0 0 0 0 #7fe0bf88; animation: chain-pulse 2s infinite;
+}
+.flow-chain b { display: block; font-size: 11px; letter-spacing: .6px; }
+.flow-chain small { display: block; font-size: 8px; color: #9ec4c5; margin-top: 2px; letter-spacing: .3px; }
+@keyframes chain-pulse {
+  70% { box-shadow: 0 0 0 8px #7fe0bf00; }
+  100% { box-shadow: 0 0 0 0 #7fe0bf00; }
+}
+.flow-verdict { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 9px; color: #8aa0a8; }
+.flow-verdict .el-icon { color: #3f9f7e; font-size: 12px; }
+.flow-verdict b { color: #2f8f6f; letter-spacing: .6px; }
+@media (max-width: 1100px) {
+  .flow-map { grid-template-columns: 1fr; }
+  .flow-core { order: 2; }
+  .flow-grid { order: 3; }
+}
