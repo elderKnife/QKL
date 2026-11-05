@@ -1,3 +1,7 @@
+> **注意**：本文件描述旧面板（`src/web`，端口 8400 的早期版本）。
+> 现行界面已替换为 `console-prototype` 的 Vue 控制台，见
+> [docs/08-FISCO控制台.md](08-FISCO控制台.md)。
+
 # 06 Web 可视化面板
 
 ## 1. 定位与边界

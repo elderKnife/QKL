@@ -1,0 +1,118 @@
+{
+  "experiment": "B",
+  "batchId": "CMD-20261024135905005371",
+  "contract": {
+    "name": "EvidenceStore",
+    "address": "0xc8ead4b26b2c6ac14c9fd90d9684c9bc2cc40085"
+  },
+  "merkleRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+  "recordCount": 3,
+  "membershipProof": {
+    "record": {
+      "commandId": "GRID-CMD-002",
+      "deviceId": "BESS-01",
+      "commandType": "storage_discharge",
+      "targetValue": 30.0,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:10:05Z",
+      "nonce": "9eec613e28b655af"
+    },
+    "proof": {
+      "recordId": "GRID-CMD-002",
+      "position": 1,
+      "proof": [
+        {
+          "side": "left",
+          "hash": "427ca720c6526a82a8d5887198af08855cd2ced0f6565547c901fcf4caf065b4"
+        },
+        {
+          "side": "right",
+          "hash": "cfefff9a70d9028fe5e77c7f1d0b8dbf36dbe9ed64ec96a170c2ada53b412910"
+        }
+      ],
+      "root": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094"
+    },
+    "verified": true
+  },
+  "tamper": {
+    "originalRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+    "tamperedCommand": {
+      "commandId": "GRID-CMD-002",
+      "deviceId": "BESS-01",
+      "commandType": "storage_discharge",
+      "targetValue": 55.5,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:10:05Z",
+      "nonce": "9eec613e28b655af"
+    },
+    "signatureFails": true,
+    "tamperedRoot": "8afb762aa981e1fde0067f68f4ca6496940ec6f8ecee0330835fbbc954aa715f",
+    "tamperedRootDiffers": true
+  },
+  "pass": true,
+  "provenance": {
+    "source": "output/experiment-B-20261024-135904-959560/evidence.json",
+    "type": "历史输出结构化摘录",
+    "onlineReverified": false,
+    "recordedPassIsHistorical": true
+  },
+  "transaction": {
+    "txHash": "0xb8d8f15c62ade9a54abda41c1e797c07d8dad7d5cd4ed79d908685f7e1b6885f",
+    "status": 0,
+    "blockNumber": 10
+  },
+  "nodeQueries": {
+    "20200": {
+      "batchId": "CMD-20261024135905005371",
+      "evidenceType": "INSTRUCTION_BATCH",
+      "dataType": "GRID_COMMAND",
+      "merkleRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+      "recordCount": 3,
+      "submitter": "GRID",
+      "relatedBatchId": "",
+      "timestamp": 1792850345
+    },
+    "20202": {
+      "batchId": "CMD-20261024135905005371",
+      "evidenceType": "INSTRUCTION_BATCH",
+      "dataType": "GRID_COMMAND",
+      "merkleRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+      "recordCount": 3,
+      "submitter": "GRID",
+      "relatedBatchId": "",
+      "timestamp": 1792850345
+    }
+  },
+  "signatureVerification": {
+    "allSignaturesValid": true
+  },
+  "forward": {
+    "batchId": "FORWARD-20261024135924660380",
+    "txHash": "0x1d165ef179a9448dd9572ad5c89fe71ca8d708bcc1a67d60c0a42529992388a3",
+    "relatedBatchId": "CMD-20261024135905005371",
+    "forwardOk": true,
+    "receiptAvailableInOriginalEvidence": false,
+    "nodeQueries": {
+      "20200": {
+        "batchId": "FORWARD-20261024135924660380",
+        "evidenceType": "FORWARD",
+        "dataType": "COMMAND_FORWARD",
+        "merkleRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+        "recordCount": 3,
+        "submitter": "VPP_A",
+        "relatedBatchId": "CMD-20261024135905005371",
+        "timestamp": 1792850345
+      },
+      "20202": {
+        "batchId": "FORWARD-20261024135924660380",
+        "evidenceType": "FORWARD",
+        "dataType": "COMMAND_FORWARD",
+        "merkleRoot": "867e74361e04b1dd403002b3a8eb6e4e1d1c7603de3252c04f006495103e0094",
+        "recordCount": 3,
+        "submitter": "VPP_A",
+        "relatedBatchId": "CMD-20261024135905005371",
+        "timestamp": 1792850345
+      }
+    }
+  }
+}

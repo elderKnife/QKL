@@ -1,0 +1,51 @@
+{
+  "leafDomain": "FISCO-BCOS-EVIDENCE-LEAF-V1:",
+  "nodeDomain": "FISCO-BCOS-EVIDENCE-NODE-V1:",
+  "oddLeafRule": "promote-last-node-without-duplication",
+  "orderRule": "sort-by-recordId-ascending",
+  "leaves": [
+    {
+      "recordId": "EDGE-BESS-001",
+      "utf8BytesHex": "7b226465766963654964223a22424553532d3031222c2264657669636554797065223a22626174746572795f73746f72616765222c226d6574726963223a22736f63222c227265636f72644964223a22454447452d424553532d303031222c2274696d657374616d70223a22323032362d31302d32345431333a30303a30355a222c22756e6974223a2225222c2276616c7565223a38322e357d",
+      "leafSha256": "e3d6064d81f1be8047d06bd96e947599d02b07aa03d629b429cb637864558a7c",
+      "json": {
+        "recordId": "EDGE-BESS-001",
+        "deviceId": "BESS-01",
+        "deviceType": "battery_storage",
+        "metric": "soc",
+        "value": 82.5,
+        "unit": "%",
+        "timestamp": "2026-10-24T13:00:05Z"
+      }
+    },
+    {
+      "recordId": "EDGE-BESS-002",
+      "utf8BytesHex": "7b226465766963654964223a22424553532d3031222c2264657669636554797065223a22626174746572795f73746f72616765222c226d6574726963223a226368617267655f706f776572222c227265636f72644964223a22454447452d424553532d303032222c2274696d657374616d70223a22323032362d31302d32345431333a30303a31305a222c22756e6974223a226b57222c2276616c7565223a31322e307d",
+      "leafSha256": "85cf89a66965b69d55cb321238b3a99bde1c1761c95c5c24dc52c1db4bbb3926",
+      "json": {
+        "recordId": "EDGE-BESS-002",
+        "deviceId": "BESS-01",
+        "deviceType": "battery_storage",
+        "metric": "charge_power",
+        "value": 12.0,
+        "unit": "kW",
+        "timestamp": "2026-10-24T13:00:10Z"
+      }
+    },
+    {
+      "recordId": "EDGE-PV-001",
+      "utf8BytesHex": "7b226465766963654964223a2250562d3031222c2264657669636554797065223a2270686f746f766f6c74616963222c226d6574726963223a226163746976655f706f776572222c227265636f72644964223a22454447452d50562d303031222c2274696d657374616d70223a22323032362d31302d32345431333a30303a30305a222c22756e6974223a226b57222c2276616c7565223a34352e367d",
+      "leafSha256": "d927e28788e267c7cb4813c1c64432e05b408c314460b2aeba69374b50e2bbee",
+      "json": {
+        "recordId": "EDGE-PV-001",
+        "deviceId": "PV-01",
+        "deviceType": "photovoltaic",
+        "metric": "active_power",
+        "value": 45.6,
+        "unit": "kW",
+        "timestamp": "2026-10-24T13:00:00Z"
+      }
+    }
+  ],
+  "merkleRoot": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54"
+}

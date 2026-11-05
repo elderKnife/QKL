@@ -1,0 +1,25 @@
+{
+  "confirmations": [
+    {
+      "confirmationId": "EDGE-CONF-GRID-CMD-001",
+      "commandId": "GRID-CMD-001",
+      "deviceId": "BESS-01",
+      "status": "SIMULATED_SUCCESS",
+      "note": "simulated execution confirmation only; this is not physical execution proof"
+    },
+    {
+      "confirmationId": "EDGE-CONF-GRID-CMD-002",
+      "commandId": "GRID-CMD-002",
+      "deviceId": "BESS-01",
+      "status": "SIMULATED_SUCCESS",
+      "note": "simulated execution confirmation only; this is not physical execution proof"
+    },
+    {
+      "confirmationId": "EDGE-CONF-GRID-CMD-003",
+      "commandId": "GRID-CMD-003",
+      "deviceId": "PV-01",
+      "status": "SIMULATED_SUCCESS",
+      "note": "simulated execution confirmation only; this is not physical execution proof"
+    }
+  ]
+}

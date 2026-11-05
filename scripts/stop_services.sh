@@ -10,5 +10,5 @@ if [ -f "$PIDFILE" ]; then
   done < "$PIDFILE"
   rm -f "$PIDFILE"
 fi
-pkill -f "src\.(grid|vpp|edge|web)\.service" 2>/dev/null || true
+pkill -f "src\.(grid|vpp|edge|web|console)\.service" 2>/dev/null || true
 sleep 1

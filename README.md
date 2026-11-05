@@ -55,9 +55,11 @@ QKL/
 │   ├── edge/service.py        # 边缘：10 台设备模拟、10s 采集、签名上报、执行指令（无链）
 │   ├── vpp/service.py         # VPP：验签、构树、根上链、转发
 │   ├── grid/service.py        # GRID：独立读链、复算、逐条证明校验
-│   └── web/                   # 只读聚合面板 + 采集控制 + 指令下发入口
+│   ├── web/                   # 旧面板（保留，不再随启动脚本启动）
+│   └── console/               # FISCO 控制台兼容后端（Vue UI 的真实数据适配）
+├── console-prototype/         # 控制台 Vue 前端源码（dist 不入库）
 ├── scripts/                   # 建链、起停、演示、篡改实验、证据采集
-├── tests/                     # 70 个单元/架构/指令/面板测试
+├── tests/                     # 75 个单元/架构/指令/面板测试
 ├── docs/                      # 需求分析、架构、协议、链证据、测试记录
 └── vendor/python-sdk/         # FISCO 官方 Python SDK（Apache-2.0，含少量本地补丁）
 ```
@@ -117,43 +119,60 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 | edge-01..04 | 8101–8104 | 设备采集、包状态、指令执行 |
 | vpp-a / vpp-b | 8201 / 8202 | 接收边缘包、链上存证、转发 GRID |
 | grid | 8301 | 独立核验、链上批次查询 |
-| web 面板 | 8400 | 只读聚合可视化（记录、签名、Merkle、链上、核验） |
+| FISCO 控制台 | 8400 | Vue 工作台（真实 FISCO 数据 + 账本日志） |
 | FISCO node0..4 | 8545..8549 | JSON-RPC；P2P 30300..30304；Channel 20200..20204 |
 
-## 4. 可视化面板（新增）
+## 4. FISCO 控制台（Vue 界面）
 
-打开 <http://127.0.0.1:8400>：
+前端来自 `console-prototype/frontend`（Vue 3 + Element Plus），
+由 `src/console/service.py` 提供静态文件与兼容 API，**数据全部来自真实 FISCO 服务与链**，
+不再是模拟后端。
 
-![可视化面板](docs/images/dashboard.png)
+打开 <http://127.0.0.1:8400>，登录账号：
 
-一条链路从上到下分四段：
+| 角色 | 用户名 | 密码 |
+|---|---|---|
+| VPP 工作台 | `vpp` | `vpp-local-password` |
+| GRID 工作台 | `grid` | `grid-local-password` |
 
-1. **边缘节点**：10 条记录原始内容（型号/功率/时间）、包签名 `r‖s`、包摘要、
-   面板独立验签结果、POST 到 VPP 的 HTTP 状态；**点击任意一条记录**会弹出该条记录的
-   JSON 与逐字段注释、规范化字节、叶子哈希和 Merkle 证明路径；
-2. **虚拟电网**：Merkle 树的每一层、根哈希、逐条证明路径、上链交易哈希与区块；
-3. **FISCO 链上**：`getBatch` 的链上状态（仅根+元数据）、交易回执（status/from/to/block）、
-   calldata 中可见的根；
-4. **国网平台**：VPP 声明根 / GRID 重算根 / 链上读取根三方比对、9 项核验清单、
-   失败记录定位与最终结论。
+![VPP 工作台](docs/images/console-fisco-vpp.png)
 
-面板顶部还有：
+### 界面语义映射
 
-- **自动采集控制**：每个边缘的运行状态（运行中/已暂停、已采集轮数），
-  「全部开始 / 全部暂停」按钮；
-- **国网指令下发**：选择边缘、设备、动作（设置电压 / 开机 / 关机）并下发，
-  下方表格实时显示命令锚定区块、回执核验结果；
-- **发一轮数据**：手动注入（等价于 `scripts/feed_records.py`）；
-- **篡改实验**：选一个已核验批次，改一条记录后重新核验，红色面板展示
-  `VERIFIED → REJECTED` 与失败记录（见下图）。
+- **EDGE-001 = edge-01，EDGE-002 = edge-02**，二者都归属 `vpp-a`；
+- VPP 工作台展示 `vpp-a` 的两个边缘、设备与收件批次；
+- GRID 工作台展示 `vpp-a` 与 `vpp-b` 的**全部**批次；
+- 列表中的「链登记」来自 FISCO `getBatch`，「本地/链上 Merkle root」来自 GRID 重算与链上读取，
+  「交易哈希 / 区块高度」来自真实交易回执。
 
-![指令下发](docs/images/commands.png)
+五个页面：运行总览、数据与批次、实验控制、VPP 工作台、GRID 工作台。
 
-![篡改实验](docs/images/tamper.png)
+### 日志按钮（区块链账本）
 
-面板**不参与可信路径**：它只调用现有服务与链 RPC，不签名、不写库、不上链；
-「开始/暂停采集」与「指令下发」只是转发调用，真正的签名与上链仍由 GRID/VPP/边缘各自完成。
-接口说明见 [docs/06-Web可视化面板.md](docs/06-Web可视化面板.md)。
+在「数据与批次」打开批次详情，或打开 GRID 批次详情，点击 **日志**：
+
+![区块链账本](docs/images/console-fisco-ledger.png)
+
+展开内容包括：
+
+- **证书与签名**：边缘 keyId、签名算法、边缘公钥、包签名 `r‖s`、VPP 交易账户、合约地址；
+- **哈希**：包摘要、Merkle 根、GRID 重算根、交易哈希、区块哈希/父哈希、状态根/回执根；
+- **逐条叶子哈希**：10 条记录各自的叶子摘要；
+- **链上记录**：`getBatch` 返回的 batchId/root/count/vppId/schema 与查询节点；
+- **交易回执**：status、from、to、blockNumber、gasUsed、remainGas、完整 calldata；
+- **GRID 核验检查**：9 项检查结果。
+
+### 前端构建
+
+`dist` 不入库，首次运行或修改 Vue 后需要构建：
+
+```bash
+cd console-prototype/frontend
+npm ci
+npx vite build
+```
+
+然后 `./scripts/start_services.sh` 会启动 `src.console.service`（端口 8400）。
 
 ## 5. 本次已经验证的结论（均有可复跑证据）
 
@@ -168,7 +187,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 | 指令下行闭环 | 命令锚定（如区块 94）+ 回执锚定（区块 95），`status=COMPLETED`、`ackStatus=VERIFIED`；设备状态随指令变化（`power_off` 后该设备功率为 0） |
 | 跨节点读到同一笔交易/同一根 | `chain-evidence.json`：node0/node3/node4 交易回执同区块；node0/node4 读到同一 `rootHash` |
 | 篡改可发现且能定位到具体记录 | `data/reports/tamper-BATCH-PKT-efd23c214ca645558db6.json`：改 1 条记录 → `REJECTED`，失败清单只报该 `recordId`；伪造证明路径同样被拒 |
-| 协议/密码学单元行为正确 | `.venv/bin/python -m unittest discover -s tests`：70 项全部通过 |
+| 协议/密码学单元行为正确 | `.venv/bin/python -m unittest discover -s tests`：75 项全部通过 |
 
 ## 6. 设计取舍（写进报告时要说明的边界）
 
@@ -188,3 +207,4 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 - [测试与验证记录](docs/05-测试与验证记录.md)
 - [Web 可视化面板](docs/06-Web可视化面板.md)
 - [在其他电脑上运行](docs/07-在其他电脑上运行.md)
+- [FISCO 控制台（Vue + 真实后端）](docs/08-FISCO控制台.md)

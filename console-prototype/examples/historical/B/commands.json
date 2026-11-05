@@ -1,0 +1,31 @@
+{
+  "commands": [
+    {
+      "commandId": "GRID-CMD-001",
+      "deviceId": "BESS-01",
+      "commandType": "storage_charge",
+      "targetValue": 50.0,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:10:00Z",
+      "nonce": "a92fe88d60541557"
+    },
+    {
+      "commandId": "GRID-CMD-002",
+      "deviceId": "BESS-01",
+      "commandType": "storage_discharge",
+      "targetValue": 30.0,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:10:05Z",
+      "nonce": "9eec613e28b655af"
+    },
+    {
+      "commandId": "GRID-CMD-003",
+      "deviceId": "PV-01",
+      "commandType": "pv_curtailment",
+      "targetValue": 20.0,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:10:10Z",
+      "nonce": "2f08f92949090912"
+    }
+  ]
+}

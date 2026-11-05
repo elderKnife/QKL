@@ -1,0 +1,86 @@
+{
+  "experiment": "A",
+  "batchId": "DATA-20261024135845622688",
+  "contract": {
+    "name": "EvidenceStore",
+    "address": "0xc8ead4b26b2c6ac14c9fd90d9684c9bc2cc40085"
+  },
+  "merkleRoot": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54",
+  "recordCount": 3,
+  "membershipProof": {
+    "record": {
+      "recordId": "EDGE-BESS-001",
+      "deviceId": "BESS-01",
+      "deviceType": "battery_storage",
+      "metric": "soc",
+      "value": 82.5,
+      "unit": "%",
+      "timestamp": "2026-10-24T13:00:05Z"
+    },
+    "proof": {
+      "recordId": "EDGE-BESS-001",
+      "position": 0,
+      "proof": [
+        {
+          "side": "right",
+          "hash": "85cf89a66965b69d55cb321238b3a99bde1c1761c95c5c24dc52c1db4bbb3926"
+        },
+        {
+          "side": "right",
+          "hash": "d927e28788e267c7cb4813c1c64432e05b408c314460b2aeba69374b50e2bbee"
+        }
+      ],
+      "root": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54"
+    },
+    "verified": true
+  },
+  "tamper": {
+    "originalRoot": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54",
+    "tamperedRecord": {
+      "recordId": "EDGE-BESS-001",
+      "deviceId": "BESS-01",
+      "deviceType": "battery_storage",
+      "metric": "soc",
+      "value": 91.7,
+      "unit": "%",
+      "timestamp": "2026-10-24T13:00:05Z"
+    },
+    "tamperedRoot": "ae4891823bee6cba678abdd22beb0f8cdea51e6f034dfeb6dcfc534b8b4f6e5d",
+    "proofFailsOnTampered": true,
+    "tamperedRootDiffers": true
+  },
+  "pass": true,
+  "provenance": {
+    "source": "output/experiment-A-20261024-135845-620361/evidence.json",
+    "type": "历史输出结构化摘录",
+    "onlineReverified": false,
+    "recordedPassIsHistorical": true
+  },
+  "transaction": {
+    "txHash": "0x9e81d825172db98359fd0c3cd7bfcdae583b67bfd131a07a088ecba2179aad16",
+    "status": 0,
+    "blockNumber": 9
+  },
+  "nodeQueries": {
+    "20200": {
+      "batchId": "DATA-20261024135845622688",
+      "evidenceType": "DATA_BATCH",
+      "dataType": "ENERGY_DATA",
+      "merkleRoot": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54",
+      "recordCount": 3,
+      "submitter": "VPP_A",
+      "relatedBatchId": "",
+      "timestamp": 1792850325
+    },
+    "20202": {
+      "batchId": "DATA-20261024135845622688",
+      "evidenceType": "DATA_BATCH",
+      "dataType": "ENERGY_DATA",
+      "merkleRoot": "f64ce30967b0fb24b3bb055cdbabe574bbd8731fba56d2291377bba3e2d59b54",
+      "recordCount": 3,
+      "submitter": "VPP_A",
+      "relatedBatchId": "",
+      "timestamp": 1792850325
+    }
+  }
+}

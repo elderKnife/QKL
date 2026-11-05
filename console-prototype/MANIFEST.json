@@ -1,0 +1,434 @@
+{
+  "bundle": "fisco-bcos-lab-handoff-20261103",
+  "preparedDate": "2026-11-03",
+  "timezone": "Asia/Shanghai",
+  "originalProjectModified": false,
+  "notes": [
+    "源码保持原样，未修复已知问题",
+    "无在线链复核，未执行实验",
+    "采用文件白名单；未读取私钥",
+    "Replaced the local edge/VPP runtime with a Go + MySQL Docker Compose prototype; historical experiment source and contract files remain unchanged."
+  ],
+  "files": [
+    {
+      "path": ".dockerignore",
+      "bytes": 153,
+      "sha256": "501789a23d280345296466f21a6ac80099710038ebf40c31394c29943b8ce763",
+      "origin": "new local edge/VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": ".env.example",
+      "bytes": 906,
+      "sha256": "7f42df4c74dab15f5083d315b5dd84e9571818a80708e7a42afdebdaf1feaa61",
+      "origin": "new local edge/VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 174,
+      "sha256": "1be1666cc9ad1e774cf51aa16f9a8b8dc27b4698a80c081e77a775248d13e76e",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "Dockerfile",
+      "bytes": 659,
+      "sha256": "18e60ace6b883d04c332368edee9dfe118370f7cf774c382ccbe656a2e61cdf0",
+      "origin": "new local edge/VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "README-edge-prototype.md",
+      "bytes": 4508,
+      "sha256": "0c207e4a0a9011bfe0689e9cda6079f30ebbb0af8d376757a043f9d80fdd4475",
+      "origin": "new local edge/VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "README.md",
+      "bytes": 2508,
+      "sha256": "17e0b9fd4701cab29eaf8485ed8b96fca3d54ffd9f84b65fcb55096579f5d7b9",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "cmd/prototype/main.go",
+      "bytes": 590,
+      "sha256": "d272d4be6183faef880f4599983c05ec9344c9957cee14961bea14204c7514dc",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "cmd/prototype/main.go",
+      "bytes": 590,
+      "sha256": "d272d4be6183faef880f4599983c05ec9344c9957cee14961bea14204c7514dc",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "compose.yaml",
+      "bytes": 4148,
+      "sha256": "43ee1d0f74118f6973b7e9d2a150a8e3b1130f30f4ed16fdff57df4e41943892",
+      "origin": "new local edge/VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "contracts/EvidenceStore.abi",
+      "bytes": 1988,
+      "sha256": "5b3102284b36b88867b2852f2be2544ef0d690cb8bead8ab73e2eaad83f5b489",
+      "origin": "contracts/EvidenceStore.abi",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "contracts/EvidenceStore.bin",
+      "bytes": 5630,
+      "sha256": "9f691fd18491e48f3c454a72a62317a61e0e91eb87d589a131f5d7cf0ab3be49",
+      "origin": "contracts/EvidenceStore.bin",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "contracts/EvidenceStore.sol",
+      "bytes": 2322,
+      "sha256": "d910ba988153789cd88b3af7430f7629711b54ee4fd904d62ca07e7eb14c3f62",
+      "origin": "contracts/EvidenceStore.sol",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "data/edge_records.json",
+      "bytes": 698,
+      "sha256": "47b799c6906d6be36e70b682d70bb8e852637a785628572a6fe1a0759a420c9a",
+      "origin": "data/edge_records.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "data/grid_commands.json",
+      "bytes": 744,
+      "sha256": "a89a4d09335689963f6ce2fc88ad5d486ac2ee68043504babbf555b6bbd908de",
+      "origin": "data/grid_commands.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "data/grid_signed_commands.json",
+      "bytes": 2602,
+      "sha256": "17b8d449893ffeca4a081b994ad75d9bd08f9cc33d695b805d7446295f13b206",
+      "origin": "data/grid_signed_commands.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "docs/01_项目导读.md",
+      "bytes": 1777,
+      "sha256": "9773b75ad633f6043eb775b3e153cc91146931750eb34785563280010a068d7f",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "docs/02_审查与已知问题.md",
+      "bytes": 4221,
+      "sha256": "4562306ff7214a0ea5d153b569a1428c0fd1da8f011a3180a189f22686a91423",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "docs/03_下一阶段开发范围.md",
+      "bytes": 2448,
+      "sha256": "9c21f3d45b0b9747b9737cf574028918d4632106b14b63b90211f530af99f717",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "docs/04_环境与复现前提.md",
+      "bytes": 1782,
+      "sha256": "4d6291265795ba2148c98f412470e7b37052cb7069c81ab9677688ccb073dee8",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "docs/05_交接范围说明.md",
+      "bytes": 1899,
+      "sha256": "fe21594cf690944bd0cc91cc5d8aa644cbe6ed18af390140dfece06a86e2f85b",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "examples/historical/A/edge_records.json",
+      "bytes": 698,
+      "sha256": "47b799c6906d6be36e70b682d70bb8e852637a785628572a6fe1a0759a420c9a",
+      "origin": "output/experiment-A-20261024-135845-620361/edge_records.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "examples/historical/A/merkle_inputs.json",
+      "bytes": 2489,
+      "sha256": "7cd6e0348a52261bc5cee8e32bbb344dda5a3273b65f1cc6b74b84cc0b1d5605",
+      "origin": "output/experiment-A-20261024-135845-620361/merkle_inputs.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "examples/historical/A/receipt_selected.json",
+      "bytes": 507,
+      "sha256": "ac7b3d3c46e13b0b458a5c714d2462d72b1477e5ae6e998800f710554fba422d",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "examples/historical/A/summary.json",
+      "bytes": 2573,
+      "sha256": "31e1150ed29c1bdb5fecf3a059f5abc399b15010a193f7c871705a42216b4085",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "examples/historical/B/commands.json",
+      "bytes": 744,
+      "sha256": "608abd18c9b9155bae4350435dd134bbc2b510def9d8db1ed55eb707f25079a7",
+      "origin": "output/experiment-B-20261024-135904-959560/commands.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "examples/historical/B/edge_confirmations.json",
+      "bytes": 794,
+      "sha256": "f1bca79581a098b649bb32131d88a50c1d6225dcf256e458a80366b1469a0acf",
+      "origin": "output/experiment-B-20261024-135904-959560/edge_confirmations.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "examples/historical/B/receipt_selected.json",
+      "bytes": 508,
+      "sha256": "4ecd413cbb2680331ad577fb01ff35987e2e47462cf379266bbc4a3f43135e76",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "examples/historical/B/signed_commands.json",
+      "bytes": 2602,
+      "sha256": "8320473e558297eb9f7b2110e1ff6235f151f9afcbb3664a87eed331a63550b2",
+      "origin": "output/experiment-B-20261024-135904-959560/signed_commands.json",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "examples/historical/B/summary.json",
+      "bytes": 3752,
+      "sha256": "fde6a9ee36c4f8863c8cde2dca1c3f43a3d8250a92674c1d691b327224bac5a2",
+      "origin": "新增交接说明或历史字段摘录",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "go.mod",
+      "bytes": 193,
+      "sha256": "0ee9693be64b00f352fbad20c98b30633abc1110b8a5046bc4df102125ddb1c6",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "go.mod",
+      "bytes": 193,
+      "sha256": "0ee9693be64b00f352fbad20c98b30633abc1110b8a5046bc4df102125ddb1c6",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "go.sum",
+      "bytes": 740,
+      "sha256": "fb306ec7cef8fe3d491126438ca26961b9697a30938df3a7d4bd60689454a439",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "go.sum",
+      "bytes": 740,
+      "sha256": "fb306ec7cef8fe3d491126438ca26961b9697a30938df3a7d4bd60689454a439",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/model.go",
+      "bytes": 7796,
+      "sha256": "f273f356ba9a323d433e23093c765ce5d3cc4d35e76e04594f66dcc1c54ecaa0",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/model.go",
+      "bytes": 7796,
+      "sha256": "f273f356ba9a323d433e23093c765ce5d3cc4d35e76e04594f66dcc1c54ecaa0",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/model_test.go",
+      "bytes": 2338,
+      "sha256": "e8ee4625ef289ef3e0937da8244567c42363cb37185119447f6576259e8b2ce2",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/model_test.go",
+      "bytes": 2338,
+      "sha256": "e8ee4625ef289ef3e0937da8244567c42363cb37185119447f6576259e8b2ce2",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/security.go",
+      "bytes": 2097,
+      "sha256": "5b9892096a12c99a07ab342f282af3a8612fe50cdf43d70a5f516b6004f14cec",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/security.go",
+      "bytes": 2097,
+      "sha256": "5b9892096a12c99a07ab342f282af3a8612fe50cdf43d70a5f516b6004f14cec",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/service.go",
+      "bytes": 12737,
+      "sha256": "a0ed320b30fc0dd58b19db1f09f8b09b1919a19f76b910ba55b6463390c43eca",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/service.go",
+      "bytes": 12737,
+      "sha256": "a0ed320b30fc0dd58b19db1f09f8b09b1919a19f76b910ba55b6463390c43eca",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/store.go",
+      "bytes": 12878,
+      "sha256": "1a441b228980415355cb016d72c97e93d7b4ed9b6a7b051514287d2e37dbc4b3",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "internal/prototype/store.go",
+      "bytes": 12878,
+      "sha256": "1a441b228980415355cb016d72c97e93d7b4ed9b6a7b051514287d2e37dbc4b3",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "mysql-init/01-create-vpp-schema.sql",
+      "bytes": 144,
+      "sha256": "b219e9921406eb20088566a3fdb79102d445df3d19c1262bee5a1c52bc3d4926",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "mysql-init/01-create-vpp-schema.sql",
+      "bytes": 144,
+      "sha256": "b219e9921406eb20088566a3fdb79102d445df3d19c1262bee5a1c52bc3d4926",
+      "origin": "new local Go/MySQL edge and VPP prototype",
+      "verbatimSourceCopy": false
+    },
+    {
+      "path": "reference/README_original.md",
+      "bytes": 763,
+      "sha256": "1d4814d33570fd1c8cd4e6607fe99d8ee2026c721a325b7a62f23cd9512b1089",
+      "origin": "README.md",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "reference/original_docs/实验完成情况与下一步说明.md",
+      "bytes": 4556,
+      "sha256": "7475fde4bfd400d116a3e2918674a83cdccba5f27ee5d083dfb49764242b5af3",
+      "origin": "docs/实验完成情况与下一步说明.md",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "reference/original_docs/导师汇报说明.md",
+      "bytes": 3427,
+      "sha256": "99c2e578f7f1c551ff54c1855f73efd5708b2463a98bb1a84d86cd6860e5ae50",
+      "origin": "docs/导师汇报说明.md",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "reference/original_docs/数据转换规范.md",
+      "bytes": 2985,
+      "sha256": "a092c49d92abc2ffc3ed3eea084eae8e918e39a29fe5d2d8c92a07c5158df5c1",
+      "origin": "docs/数据转换规范.md",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "reference/original_docs/验收报告.md",
+      "bytes": 1887,
+      "sha256": "9931083393fb2fb6085c05eefa7d9df70a18fa6cf76889d604e19f94a4110a51",
+      "origin": "docs/验收报告.md",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/__init__.py",
+      "bytes": 46,
+      "sha256": "9491f547802bb85d68857261eeae1c7870a12a99bb9eb573c10e2ff45c3971af",
+      "origin": "src/__init__.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/chain.py",
+      "bytes": 7758,
+      "sha256": "456f16a0396181828ad8554b2bda5b0bafdb50a700a9e1feeb639f73436fbc37",
+      "origin": "src/chain.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/common.py",
+      "bytes": 4807,
+      "sha256": "f5edfc05dc3a412cfb28599ae43ecb6da5598b0f298b5d421133c3b870eba585",
+      "origin": "src/common.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/crypto_util.py",
+      "bytes": 2629,
+      "sha256": "2f533531cca22f24c81d7e86b3544b837f9e4480ece2b6f85913c7ba08da71dc",
+      "origin": "src/crypto_util.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/experiment_a.py",
+      "bytes": 5992,
+      "sha256": "e8334f6736318275ceeb68d669d288592be2fcd2dd8b47497f1b65898b393857",
+      "origin": "src/experiment_a.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/experiment_b.py",
+      "bytes": 8569,
+      "sha256": "091c38e40c93df7c63871713881beaa9cd7309810c9a40b0b83a3b85f058c2ed",
+      "origin": "src/experiment_b.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/merkle.py",
+      "bytes": 4525,
+      "sha256": "2d1f97c6819c7694a8707399b256d06455b99a898f3007a8e8c72b57144fb86d",
+      "origin": "src/merkle.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/outputs.py",
+      "bytes": 756,
+      "sha256": "56a1f314c6f32affcc3e55ecffa05667bddb30dab26e2cf4c906bd3259b13bab",
+      "origin": "src/outputs.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/run_all.py",
+      "bytes": 720,
+      "sha256": "69e295edb9540ebf894d29717affe548b1c914b7bc75f02bdf5be9c7728475c3",
+      "origin": "src/run_all.py",
+      "verbatimSourceCopy": true
+    },
+    {
+      "path": "src/sample_trace.py",
+      "bytes": 8035,
+      "sha256": "3c93d45a4652c248e066356831329af8698b577ccb84b47e0cac880414076aa4",
+      "origin": "src/sample_trace.py",
+      "verbatimSourceCopy": true
+    }
+  ]
+}

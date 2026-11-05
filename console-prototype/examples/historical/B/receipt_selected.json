@@ -1,0 +1,12 @@
+{
+  "provenance": "历史回执字段摘录，非完整回执；本次未查询链",
+  "source": "output/experiment-B-20261024-135904-959560/evidence.json",
+  "receipt": {
+    "transactionHash": "0xb8d8f15c62ade9a54abda41c1e797c07d8dad7d5cd4ed79d908685f7e1b6885f",
+    "status": 0,
+    "blockNumber": 10,
+    "from": "0x309438a7cd1cf204063e08a07eb384cf7826f349",
+    "to": "0xc8ead4b26b2c6ac14c9fd90d9684c9bc2cc40085",
+    "output": "0x0000000000000000000000000000000000000000000000000000000000000001"
+  }
+}

@@ -511,10 +511,17 @@ def create_app(config_path: str | None = None) -> Flask:
     @app.get("/api/v1/batches")
     def batches():
         rows = runtime.db.query_all(
-            "SELECT batchId, vppId, edgeId, status, recordCount, chainRoot, txHash, updatedAt"
+            "SELECT batchId, vppId, edgeId, status, recordCount, chainRoot, txHash, blockNumber, updatedAt"
             " FROM batches ORDER BY createdAt DESC LIMIT 100"
         )
         return jsonify({"batches": rows})
+
+    @app.get("/api/v1/batches/count")
+    def batches_count():
+        total = runtime.db.query_one("SELECT COUNT(*) AS n FROM batches")["n"]
+        passed = runtime.db.query_one("SELECT COUNT(*) AS n FROM batches WHERE status = 'VERIFIED'")["n"]
+        failed = runtime.db.query_one("SELECT COUNT(*) AS n FROM batches WHERE status = 'REJECTED'")["n"]
+        return jsonify({"total": total, "passed": passed, "failed": failed})
 
     @app.get("/api/v1/batches/<batch_id>")
     def batch(batch_id: str):

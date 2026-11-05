@@ -1,0 +1,281 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root-dev-password}
+      MYSQL_DATABASE: edge_data
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-prototype-dev-password}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:${MYSQL_PORT:-3307}:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  vpp-mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${VPP_MYSQL_ROOT_PASSWORD:-vpp-root-dev-password}
+      MYSQL_DATABASE: vpp_data
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${VPP_MYSQL_PASSWORD:-vpp-dev-password}
+    volumes:
+      - vpp-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  edge-schema-init:
+    image: mysql:8.4
+    entrypoint: ["sh", "-c", "mysql -hmysql -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" < /sql/02-create-edge2-schema.sql"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root-dev-password}
+    volumes: [./mysql-init:/sql:ro]
+    depends_on:
+      mysql: {condition: service_healthy}
+    restart: "no"
+
+  grid-mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${GRID_MYSQL_ROOT_PASSWORD:-grid-root-dev-password}
+      MYSQL_DATABASE: grid_data
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${GRID_MYSQL_PASSWORD:-grid-dev-password}
+    volumes:
+      - grid-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  identity-init-edge1:
+    build: {context: ., dockerfile: Dockerfile}
+    image: fisco-bcos-edge-prototype:go
+    command: ["identity-init"]
+    environment:
+      EDGE_ID: EDGE-001
+      EDGE_PRIVATE_KEY_PATH: /identity/EDGE-001.key
+      EDGE_PUBLIC_KEY_PATH: /public_keys/EDGE-001.pub
+    volumes:
+      - edge-identity:/identity
+      - edge-public-keys:/public_keys
+    restart: "no"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+
+  identity-init-edge2:
+    image: fisco-bcos-edge-prototype:go
+    command: ["identity-init"]
+    environment:
+      EDGE_ID: EDGE-002
+      EDGE_PRIVATE_KEY_PATH: /identity/EDGE-002.key
+      EDGE_PUBLIC_KEY_PATH: /public_keys/EDGE-002.pub
+    volumes:
+      - edge-identity:/identity
+      - edge-public-keys:/public_keys
+    depends_on:
+      identity-init-edge1:
+        condition: service_completed_successfully
+    restart: "no"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+
+  edge:
+    build: {context: ., dockerfile: Dockerfile}
+    image: fisco-bcos-edge-prototype:go
+    command: ["edge"]
+    environment:
+      EDGE_ID: EDGE-001
+      EDGE_HOST: 0.0.0.0
+      EDGE_PORT: 8080
+      EDGE_SCHEMA: edge_data
+      EDGE_PRIVATE_KEY_PATH: /identity/EDGE-001.key
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-prototype-dev-password}
+      VPP_BATCH_URL: http://vpp:8081/v1/batches
+      INTERNAL_CONTROL_TOKEN: ${INTERNAL_CONTROL_TOKEN:-local-prototype-control-token-set-a-random-value-in-env}
+      SAMPLE_INTERVAL_MIN_SECONDS: ${SAMPLE_INTERVAL_SECONDS:-600}
+      SAMPLE_INTERVAL_MAX_SECONDS: ${SAMPLE_INTERVAL_SECONDS:-600}
+      BATCH_WINDOW_SECONDS: ${BATCH_WINDOW_SECONDS:-1800}
+      POWER_PROFILE: small
+    volumes: [edge-identity:/identity:ro]
+    ports: ["127.0.0.1:${EDGE_HEALTH_PORT:-18080}:8080"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      mysql: {condition: service_healthy}
+      edge-schema-init: {condition: service_completed_successfully}
+      identity-init-edge1: {condition: service_completed_successfully}
+      vpp: {condition: service_healthy}
+
+  edge2:
+    image: fisco-bcos-edge-prototype:go
+    command: ["edge"]
+    environment:
+      EDGE_ID: EDGE-002
+      EDGE_HOST: 0.0.0.0
+      EDGE_PORT: 8080
+      EDGE_SCHEMA: edge2_data
+      EDGE_PRIVATE_KEY_PATH: /identity/EDGE-002.key
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-prototype-dev-password}
+      VPP_BATCH_URL: http://vpp:8081/v1/batches
+      INTERNAL_CONTROL_TOKEN: ${INTERNAL_CONTROL_TOKEN:-local-prototype-control-token-set-a-random-value-in-env}
+      SAMPLE_INTERVAL_MIN_SECONDS: ${SAMPLE_INTERVAL_SECONDS:-600}
+      SAMPLE_INTERVAL_MAX_SECONDS: ${SAMPLE_INTERVAL_SECONDS:-600}
+      BATCH_WINDOW_SECONDS: ${BATCH_WINDOW_SECONDS:-1800}
+      POWER_PROFILE: large
+    volumes: [edge-identity:/identity:ro]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      mysql: {condition: service_healthy}
+      edge-schema-init: {condition: service_completed_successfully}
+      identity-init-edge2: {condition: service_completed_successfully}
+      vpp: {condition: service_healthy}
+
+  vpp:
+    image: fisco-bcos-edge-prototype:go
+    command: ["vpp"]
+    environment:
+      VPP_ID: VPP-001
+      VPP_HOST: 0.0.0.0
+      VPP_PORT: 8081
+      VPP_SCHEMA: vpp_data
+      MYSQL_HOST: vpp-mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${VPP_MYSQL_PASSWORD:-vpp-dev-password}
+      VPP_TRUSTED_KEY_DIR: /public_keys
+      GRID_BATCH_URL: http://grid:8083/v1/batches
+      INTERNAL_CONTROL_TOKEN: ${INTERNAL_CONTROL_TOKEN:-local-prototype-control-token-set-a-random-value-in-env}
+    volumes: [edge-public-keys:/public_keys:ro]
+    ports: ["127.0.0.1:${VPP_PORT:-18081}:8081"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8081/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      vpp-mysql: {condition: service_healthy}
+      identity-init-edge2: {condition: service_completed_successfully}
+
+  grid:
+    image: fisco-bcos-edge-prototype:go
+    command: ["grid"]
+    environment:
+      GRID_HOST: 0.0.0.0
+      GRID_PORT: 8083
+      GRID_SCHEMA: grid_data
+      MYSQL_HOST: grid-mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: prototype
+      MYSQL_PASSWORD: ${GRID_MYSQL_PASSWORD:-grid-dev-password}
+      GRID_TRUSTED_KEY_DIR: /public_keys
+      GRID_CHAIN_QUERY_URL: http://vpp:8081/v1/grid/chain
+      INTERNAL_CONTROL_TOKEN: ${INTERNAL_CONTROL_TOKEN:-local-prototype-control-token-set-a-random-value-in-env}
+    volumes: [edge-public-keys:/public_keys:ro]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8083/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      grid-mysql: {condition: service_healthy}
+      vpp: {condition: service_healthy}
+      identity-init-edge2: {condition: service_completed_successfully}
+
+  web:
+    build: {context: ., dockerfile: Dockerfile}
+    image: fisco-bcos-edge-prototype:go
+    command: ["web"]
+    environment:
+      WEB_HOST: 0.0.0.0
+      WEB_PORT: 8082
+      WEB_EDGE_URL: http://edge:8080
+      WEB_EDGE2_URL: http://edge2:8080
+      WEB_VPP_URL: http://vpp:8081
+      WEB_GRID_URL: http://grid:8083
+      WEB_ASSET_DIR: /app/web
+      VPP_USERNAME: ${VPP_USERNAME:-vpp}
+      VPP_PASSWORD: ${VPP_PASSWORD:-vpp-local-password}
+      GRID_USERNAME: ${GRID_USERNAME:-grid}
+      GRID_PASSWORD: ${GRID_PASSWORD:-grid-local-password}
+      INTERNAL_CONTROL_TOKEN: ${INTERNAL_CONTROL_TOKEN:-local-prototype-control-token-set-a-random-value-in-env}
+    ports: ["127.0.0.1:${WEB_PORT:-18082}:8082"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8082/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      edge: {condition: service_healthy}
+      edge2: {condition: service_healthy}
+      vpp: {condition: service_healthy}
+      grid: {condition: service_healthy}
+
+volumes:
+  mysql-data:
+  vpp-mysql-data:
+  grid-mysql-data:
+  edge-identity:
+  edge-public-keys:

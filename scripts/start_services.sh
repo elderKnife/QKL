@@ -22,7 +22,7 @@ start edge-01 env EDGE_ID=edge-01 "$PY" -m src.edge.service
 start edge-02 env EDGE_ID=edge-02 "$PY" -m src.edge.service
 start edge-03 env EDGE_ID=edge-03 "$PY" -m src.edge.service
 start edge-04 env EDGE_ID=edge-04 "$PY" -m src.edge.service
-start web "$PY" -m src.web.service
+start console "$PY" -m src.console.service
 
 for port in 8101 8102 8103 8104 8201 8202 8301 8400; do
   for _ in $(seq 1 40); do

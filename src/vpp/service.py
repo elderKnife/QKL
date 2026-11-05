@@ -482,8 +482,8 @@ def create_app(config_path: str | None = None, vpp_id: str | None = None) -> Fla
     @app.get("/api/v1/packets")
     def packets():
         rows = runtime.db.query_all(
-            "SELECT packetId, edgeId, batchId, status, gridStatus, txHash, blockNumber, recordCount, updatedAt"
-            " FROM packets ORDER BY createdAt DESC LIMIT 100"
+            "SELECT packetId, edgeId, batchId, status, gridStatus, txHash, blockNumber, recordCount,"
+            " rootHash, createdAt, updatedAt FROM packets ORDER BY createdAt DESC LIMIT 100"
         )
         return jsonify({"packets": rows})
 

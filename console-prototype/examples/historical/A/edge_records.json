@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "recordId": "EDGE-PV-001",
+      "deviceId": "PV-01",
+      "deviceType": "photovoltaic",
+      "metric": "active_power",
+      "value": 45.6,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:00:00Z"
+    },
+    {
+      "recordId": "EDGE-BESS-001",
+      "deviceId": "BESS-01",
+      "deviceType": "battery_storage",
+      "metric": "soc",
+      "value": 82.5,
+      "unit": "%",
+      "timestamp": "2026-10-24T13:00:05Z"
+    },
+    {
+      "recordId": "EDGE-BESS-002",
+      "deviceId": "BESS-01",
+      "deviceType": "battery_storage",
+      "metric": "charge_power",
+      "value": 12.0,
+      "unit": "kW",
+      "timestamp": "2026-10-24T13:00:10Z"
+    }
+  ]
+}
