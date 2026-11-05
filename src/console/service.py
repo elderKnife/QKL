@@ -919,6 +919,9 @@ def create_app() -> Flask:
                     "id": f"{packet_id}-verification",
                     "status": detail.get("verificationStatus"),
                     "checkedAt": detail.get("updatedAt") or iso_now(),
+                    "observer": verification.get("observer"),
+                    "ruleVersion": verification.get("ruleVersion"),
+                    "method": verification.get("method"),
                     "result": verification,
                 }
             )
@@ -930,6 +933,9 @@ def create_app() -> Flask:
                         "id": f"{packet_id}-verification",
                         "status": grid.get("verificationStatus"),
                         "checkedAt": iso_now(),
+                        "observer": grid["verification"].get("observer"),
+                        "ruleVersion": grid["verification"].get("ruleVersion"),
+                        "method": grid["verification"].get("method"),
                         "result": grid["verification"],
                     }
                 )
@@ -994,6 +1000,9 @@ def create_app() -> Flask:
                     "id": f"{packet_id}-verification",
                     "status": detail.get("verificationStatus"),
                     "checkedAt": iso_now(),
+                    "observer": detail["verification"].get("observer"),
+                    "ruleVersion": detail["verification"].get("ruleVersion"),
+                    "method": detail["verification"].get("method"),
                     "result": detail["verification"],
                 }
             )
