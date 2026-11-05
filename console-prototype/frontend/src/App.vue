@@ -385,7 +385,7 @@ onUnmounted(() => { clearInterval(poll); clearInterval(tick); window.removeEvent
             <div class="flow-map">
               <article class="flow-node flow-vpp">
                 <div class="flow-node-top"><span class="flow-node-icon"><el-icon><Share /></el-icon></span><span class="flow-kicker">SOURCE · VPP</span></div>
-                <h3>vpp-a</h3>
+                <h3>vpp</h3>
                 <p>边缘聚合 · 业务签名 · Merkle 构树</p>
                 <dl class="flow-stats"><div><dt>累计批次</dt><dd>{{ gridOverview?.batchCount ?? '—' }}</dd></div><div><dt>签名算法</dt><dd>ECDSA</dd></div></dl>
               </article>
@@ -398,6 +398,8 @@ onUnmounted(() => { clearInterval(poll); clearInterval(tick); window.removeEvent
                     <div class="flow-chain"><span class="flow-chain-dot"></span><b>区块链校验</b></div>
                     <span class="lane-line with-arrow"></span>
                     <span class="lane-tag">读链核验</span>
+                    <span class="chain-signal root"></span>
+                    <span class="chain-signal verify"></span>
                   </div>
                 </div>
                 <div class="flow-lane">

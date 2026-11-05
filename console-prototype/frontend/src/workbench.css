@@ -253,3 +253,53 @@
 .flow-chain { padding: 8px 14px; }
 .flow-chain b { font-size: 11px; }
 .flow-lane .flow-track { margin-top: 0; }
+
+/* 上下两条通道联动动画：下数据、上核验 */
+.chain-lane-body { position: relative; }
+.chain-signal {
+  position: absolute; top: 50%; left: 8%;
+  width: 8px; height: 8px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0; pointer-events: none; z-index: 2;
+}
+.chain-signal.root {
+  background: #e0ac53;
+  box-shadow: 0 0 0 3px #e0ac5322, 0 0 10px #e0ac53;
+  animation: root-travel 5.2s linear infinite;
+}
+.chain-signal.verify {
+  background: #43bd93;
+  box-shadow: 0 0 0 3px #43bd9322, 0 0 10px #43bd93;
+  animation: verify-travel 5.2s linear infinite;
+}
+@keyframes root-travel {
+  0% { left: 10%; opacity: 0; }
+  6% { opacity: 1; }
+  28% { left: 44%; opacity: 1; }
+  32% { left: 46%; opacity: 0; }
+  100% { left: 46%; opacity: 0; }
+}
+@keyframes verify-travel {
+  0%, 38% { left: 54%; opacity: 0; }
+  44% { opacity: 1; }
+  68% { left: 87%; opacity: 1; }
+  72% { left: 89%; opacity: 0; }
+  100% { left: 89%; opacity: 0; }
+}
+@keyframes chain-glow {
+  0%, 26% { box-shadow: 0 8px 20px rgba(23, 63, 71, .18); }
+  34% { box-shadow: 0 0 0 7px rgba(127, 224, 191, .16), 0 10px 26px rgba(23, 63, 71, .28); }
+  44%, 100% { box-shadow: 0 8px 20px rgba(23, 63, 71, .18); }
+}
+.flow-chain { animation: chain-glow 5.2s ease-in-out infinite; }
+@keyframes pass-pop {
+  0%, 66% { background: #edf8f4; color: #2f8f6f; box-shadow: none; transform: scale(1); }
+  74% { background: #d7f3e7; color: #1f7a5c; box-shadow: 0 0 0 4px #3f9f7e1a; transform: scale(1.06); }
+  84%, 100% { background: #edf8f4; color: #2f8f6f; box-shadow: none; transform: scale(1); }
+}
+.lane-pass { animation: pass-pop 5.2s ease-in-out infinite; }
+.flow-packet { animation-duration: 5.2s; }
+.flow-packet.p2 { animation-delay: 1.73s; }
+.flow-packet.p3 { animation-delay: 3.46s; }
+.flow-lane:first-child .flow-lane-head > span:first-child { color: #9a7b45; }
+.flow-lane:last-child .flow-lane-head > span:first-child { color: #3f8f7a; }
