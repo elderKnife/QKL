@@ -228,3 +228,28 @@
   .flow-core { order: 2; }
   .flow-grid { order: 3; }
 }
+
+/* 两条通道：上区块链校验，下原始数据传输 */
+.flow-core { gap: 18px; }
+.flow-lane { display: flex; flex-direction: column; }
+.flow-lane-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 9px; letter-spacing: 1px; color: #7f979f; margin-bottom: 7px;
+}
+.flow-lane-head em { font-style: normal; font-size: 8px; color: #a2b4ba; letter-spacing: .3px; }
+.chain-lane-body { display: flex; align-items: center; gap: 8px; }
+.lane-tag { font-size: 8.5px; color: #8fa6ad; white-space: nowrap; }
+.lane-line { flex: 1; min-width: 18px; height: 1px; border-top: 1px dashed #b9dcd3; position: relative; }
+.lane-line.with-arrow::after {
+  content: ""; position: absolute; right: -1px; top: -4px;
+  border-left: 7px solid #8fcec0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.lane-pass {
+  font-size: 8.5px; color: #2f8f6f; background: #edf8f4;
+  border: 1px solid #c6e6da; border-radius: 999px; padding: 2px 8px; letter-spacing: .6px;
+}
+.flow-chain { padding: 8px 14px; }
+.flow-chain b { font-size: 11px; }
+.flow-lane .flow-track { margin-top: 0; }

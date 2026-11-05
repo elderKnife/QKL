@@ -381,7 +381,7 @@ onUnmounted(() => { clearInterval(poll); clearInterval(tick); window.removeEvent
         <template v-if="page === 'grid-workbench'">
           
           <section class="panel flow-panel">
-            <div class="panel-heading"><div><h2>数据流向与链上核验</h2><p>左侧 VPP 上报批次与根，右侧 GRID 独立读链核验；示意图用于展示链路关系。</p></div><el-tag type="success" effect="plain">FISCO BCOS · 真实链</el-tag></div>
+            <div class="panel-heading"><div><h2>数据流向与链上核验</h2></div><el-tag type="success" effect="plain">区块链校验 · 真实链</el-tag></div>
             <div class="flow-map">
               <article class="flow-node flow-vpp">
                 <div class="flow-node-top"><span class="flow-node-icon"><el-icon><Share /></el-icon></span><span class="flow-kicker">SOURCE · VPP</span></div>
@@ -390,16 +390,20 @@ onUnmounted(() => { clearInterval(poll); clearInterval(tick); window.removeEvent
                 <dl class="flow-stats"><div><dt>累计批次</dt><dd>{{ gridOverview?.batchCount ?? '—' }}</dd></div><div><dt>签名算法</dt><dd>ECDSA</dd></div></dl>
               </article>
               <div class="flow-core">
-                <div class="flow-rail">
-                  <span class="flow-rail-label">批次包 · 记录 · Merkle 证明</span>
+                <div class="flow-lane">
+                  <div class="flow-lane-head"><span>区块链校验</span><span class="lane-pass">PASS</span></div>
+                  <div class="chain-lane-body">
+                    <span class="lane-tag">root 上链</span>
+                    <span class="lane-line"></span>
+                    <div class="flow-chain"><span class="flow-chain-dot"></span><b>区块链校验</b></div>
+                    <span class="lane-line with-arrow"></span>
+                    <span class="lane-tag">读链核验</span>
+                  </div>
+                </div>
+                <div class="flow-lane">
+                  <div class="flow-lane-head"><span>原始数据传输</span><em>records + proofs</em></div>
                   <div class="flow-track"><i class="flow-packet p1"></i><i class="flow-packet p2"></i><i class="flow-packet p3"></i></div>
                 </div>
-                <div class="flow-chain-row">
-                  <span class="flow-stem left"><em>registerBatch(root)</em></span>
-                  <div class="flow-chain"><span class="flow-chain-dot"></span><div><b>FISCO BCOS</b><small>5 节点 · PBFT · 2f+1</small></div></div>
-                  <span class="flow-stem right"><em>getBatch + verify</em></span>
-                </div>
-                <div class="flow-verdict"><el-icon><CircleCheck /></el-icon><span>root 比对一致</span><b>PASS</b><span>回执 status 0x0</span></div>
               </div>
               <article class="flow-node flow-grid">
                 <div class="flow-node-top"><span class="flow-node-icon"><el-icon><Files /></el-icon></span><span class="flow-kicker">VERIFIER · GRID</span></div>
