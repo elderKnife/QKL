@@ -333,3 +333,5 @@
 .grid-batches-table .el-table__cell { padding: 12px 18px; }
 .grid-batches-table .el-table__header th.el-table__cell { padding: 12px 18px; }
 .grid-batches-table .cell { line-height: 1.6; }
+.grid-batches-table .op-actions { display: flex; align-items: center; gap: 14px; white-space: nowrap; }
+.grid-batches-table .op-actions .el-button { margin-left: 0; padding: 0 2px; }
