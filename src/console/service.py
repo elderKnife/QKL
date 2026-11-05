@@ -402,6 +402,7 @@ def edge_batch_rows(edge_id: str) -> list:
                 "windowStart": created,
                 "windowEnd": created,
                 "merkleRoot": None,
+                "vppMerkleRoot": None,
                 "attempts": 1,
                 "createdAt": created,
             }
@@ -858,7 +859,16 @@ def create_app() -> Flask:
                 if any(record["deviceId"] == wanted for record in records):
                     kept.append(item)
             items = kept
-        return jsonify(paged(items, page, size))
+        result = paged(items, page, size)
+        if ui_edge:
+            vpp_id = vpp_for_edge(UI_EDGES[ui_edge])
+            for item in result["items"]:
+                if not item.get("vppMerkleRoot"):
+                    detail = vpp_packet(vpp_id, item["packetId"])
+                    if detail:
+                        item["vppMerkleRoot"] = detail.get("rootHash")
+                        item["merkleRootSource"] = "VPP"
+        return jsonify(result)
 
     @app.get("/api/<source>/batches/<packet_id>")
     def batch_detail(source: str, packet_id: str):
