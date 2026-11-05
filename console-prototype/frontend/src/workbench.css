@@ -328,3 +328,8 @@
 @keyframes merge-flash { 0%, 68% { opacity: 0; transform: scale(.6); } 72% { opacity: .9; transform: scale(1.4); } 78%, 100% { opacity: 0; transform: scale(1.4); } }
 .workbench-summary.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 900px) { .workbench-summary.three { grid-template-columns: 1fr; } }
+
+/* VPP 来源批次：统一左右留白与列宽节奏 */
+.grid-batches-table .el-table__cell { padding: 12px 18px; }
+.grid-batches-table .el-table__header th.el-table__cell { padding: 12px 18px; }
+.grid-batches-table .cell { line-height: 1.6; }

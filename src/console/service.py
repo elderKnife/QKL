@@ -545,6 +545,8 @@ def grid_detail(packet_id: str):
         "chainMerkleRoot": item.get("chainRoot"),
         "txHash": item.get("txHash"),
         "blockNumber": item.get("blockNumber"),
+        "createdAt": item.get("createdAt"),
+        "updatedAt": item.get("updatedAt"),
         "verificationStatus": status,
         "signature": (edge or {}).get("signature"),
         "locator": {"adapter": "fisco-bcos", "txHash": item.get("txHash"), "blockNumber": item.get("blockNumber")},
