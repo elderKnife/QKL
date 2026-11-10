@@ -1119,4 +1119,9 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=int(os.environ.get("CONSOLE_PORT", "8400")), threaded=True)
+    app.run(
+        host=os.environ.get("CONSOLE_HOST", "127.0.0.1"),
+        port=int(os.environ.get("CONSOLE_PORT", "8400")),
+        debug=os.environ.get("CONSOLE_DEBUG") == "1",
+        threaded=True,
+    )

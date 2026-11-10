@@ -87,7 +87,7 @@ const vppEdges = computed(() => vppWorkbench.value?.edgeRoster || vppWorkbench.v
 const vppInbox = computed(() => vppWorkbench.value?.batches?.items || vppWorkbench.value?.receivedBatches?.items || vppWorkbench.value?.batches || vppWorkbench.value?.receivedBatches || [])
 const gridDetailDrawer = ref(false)
 const demoRecordCount = 30
-const gridOverview = ref<Row | null>(null), gridBatches = ref<Page>(emptyPage()), gridRecords = ref<Page>(emptyPage()), gridBatchDetail = ref<Row | null>(null)
+const gridOverview = ref<Row | null>(null), gridBatches = ref<Page>(emptyPage()), gridRecords = ref<Page>(emptyPage()), gridBatchDetail = ref<Row>({})
 const gridBatchRecords = ref<Page>(emptyPage())
 const gridVerifications = ref<Row[]>([]), gridError = ref(''), gridBusy = ref(false), gridActionBusy = ref(false)
 const gridPage = ref(1), gridPageSize = 25
@@ -147,7 +147,7 @@ async function loadGridWorkbench() {
 }
 async function openGridBatch(packetId: string) {
   gridDetailDrawer.value = true
-  gridBatchDetail.value = null; gridVerifications.value = []; gridBatchRecords.value = emptyPage(); gridError.value = ''
+  gridBatchDetail.value = {}; gridVerifications.value = []; gridBatchRecords.value = emptyPage(); gridError.value = ''
   try {
     const [result, history, records] = await Promise.all([
       api<Row>('/api/grid/batches/' + encodeURIComponent(packetId)),
