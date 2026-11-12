@@ -77,7 +77,7 @@ cd /Users/zyd/PycharmProjects/QKL
 # 2) 合约（仅首次/重置后）
 ./scripts/compile_contract.sh
 .venv/bin/python scripts/deploy_contract.py
-# 3) 八个服务（4 边缘 + 2 VPP + grid + web）
+# 3) 八个服务（4 边缘 + 2 VPP + grid + console）
 ./scripts/start_services.sh
 # 4) 端到端演示（1 轮 × 4 边缘 = 4 个批次）
 .venv/bin/python scripts/demo_flow.py --rounds 1
@@ -89,7 +89,7 @@ cd /Users/zyd/PycharmProjects/QKL
 启动后打开浏览器：
 
 **http://127.0.0.1:8400** —— 可视化面板。自动采集默认是**暂停**的，
-打开页面后点「▶ 全部开始」即可每 10 秒看到 4 个边缘各上报 10 条记录。
+打开页面后进入「实验控制」点「开始连续采集」，即可每 10 秒看到 4 个边缘各上报 10 条记录。
 
 停止：`./scripts/stop_services.sh`、`./scripts/stop_chain.sh`。
 本地状态归档重置：`./scripts/reset_local_state.sh`（**不删除链上或历史证据**）。
@@ -104,13 +104,15 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/gen_accounts.py        # 生成测试身份并同步公钥
 # 下载 chain/bin/fisco-bcos（2.11.0）与 tools/solc（0.6.10），见文档
 ./scripts/compile_contract.sh
+cd console-prototype/frontend && npm ci && npm run build && cd ../..   # 构建控制台
 /opt/homebrew/bin/bash chain/build_chain.sh -l 127.0.0.1:5 -p 30300,20200,8545 -e ./bin/fisco-bcos -o ./nodes
 ./scripts/start_chain.sh && .venv/bin/python scripts/deploy_contract.py
 ./scripts/start_services.sh                      # 打开 http://127.0.0.1:8400
 ```
 
 完整的分平台步骤、下载地址、常见问题见
-**[docs/07-在其他电脑上运行.md](docs/07-在其他电脑上运行.md)**。
+**[docs/07-在其他电脑上运行.md](docs/07-在其他电脑上运行.md)**；
+一页式启动清单见 **[START.md](START.md)**。
 
 ### 端口表
 
