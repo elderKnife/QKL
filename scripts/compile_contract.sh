@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-# Compile contracts/RootHashRegistry.sol with solc 0.6.10 (FISCO BCOS 2.x EVM).
-# tools/solc is the upstream macOS x86_64 build (runs under Rosetta on Apple Silicon).
+# Compile both registries with solc 0.6.10; solc-js also works on ARM.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-if [ ! -x "$ROOT/tools/solc" ]; then
-  echo "tools/solc missing. Download solc 0.6.10:" >&2
-  echo "  curl -L -o tools/solc https://github.com/ethereum/solidity/releases/download/v0.6.10/solc-macos && chmod +x tools/solc" >&2
-  exit 1
-fi
 mkdir -p "$ROOT/contracts/build"
-"$ROOT/tools/solc" --bin --abi --overwrite -o "$ROOT/contracts/build" "$ROOT/contracts/RootHashRegistry.sol"
+if [ -x "$ROOT/tools/solc" ]; then
+  "$ROOT/tools/solc" --version | grep -Eq 'Version: 0\.6\.10\+' || {
+    echo "tools/solc must be version 0.6.10" >&2
+    exit 1
+  }
+  "$ROOT/tools/solc" --bin --abi --overwrite -o "$ROOT/contracts/build" "$ROOT/contracts/RootHashRegistry.sol"
+  "$ROOT/tools/solc" --bin --abi --overwrite -o "$ROOT/contracts/build" "$ROOT/contracts/RootHashRegistryV2.sol"
+else
+  node "$ROOT/scripts/compile_contracts.cjs"
+fi
 echo "artifacts: $(ls "$ROOT/contracts/build")"

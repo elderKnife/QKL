@@ -10,7 +10,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'list',
   use: {
-    baseURL: process.env.WEB_BASE_URL || 'http://127.0.0.1:18082',
+    baseURL: process.env.WEB_BASE_URL || 'http://127.0.0.1:8400',
     browserName: 'chromium',
     headless: true,
     trace: 'retain-on-failure',

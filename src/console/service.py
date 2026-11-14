@@ -1119,6 +1119,9 @@ app = create_app()
 
 
 if __name__ == "__main__":
+    if CONFIG.get('pipeline', {}).get('version') == 2:
+        from src.pipeline.console import create_app as create_v2_console
+        app = create_v2_console(CONFIG)
     app.run(
         host=os.environ.get("CONSOLE_HOST", "127.0.0.1"),
         port=int(os.environ.get("CONSOLE_PORT", "8400")),

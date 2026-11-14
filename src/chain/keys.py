@@ -1,8 +1,7 @@
 """Chain account helpers (FISCO BCOS transaction accounts).
 
-Business signing identities (edges, VPP packet signatures) and chain
-transaction accounts are deliberately separate: only the grid platform and the
-two VPPs hold chain accounts for this experiment; edges never do.
+Business signatures and chain transactions have separate protocol purposes.
+The local V2 lab binds each edge, VPP and GRID to an explicit PEM identity.
 """
 from __future__ import annotations
 

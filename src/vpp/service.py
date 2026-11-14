@@ -491,6 +491,13 @@ def create_app(config_path: str | None = None, vpp_id: str | None = None) -> Fla
 
 
 def main() -> None:
+    if load_config().get('pipeline', {}).get('version') == 2:
+        from ..pipeline.apps import vpp_app
+        config = load_config()
+        vpp_id = os.environ.get('VPP_ID', config['vpps'][0]['vppId'])
+        app = vpp_app(config, next(v for v in config['vpps'] if v['vppId']==vpp_id))
+        app.run(host='127.0.0.1', port=app.config['runtime'].spec['port'], threaded=True)
+        return
     app = create_app()
     runtime: VppRuntime = app.config["RUNTIME"]
     app.run(host="127.0.0.1", port=runtime.spec["port"], threaded=True)

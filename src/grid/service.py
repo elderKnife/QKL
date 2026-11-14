@@ -566,6 +566,11 @@ def create_app(config_path: str | None = None) -> Flask:
 
 
 def main() -> None:
+    if load_config().get('pipeline', {}).get('version') == 2:
+        from ..pipeline.apps import grid_app
+        app = grid_app(load_config())
+        app.run(host='127.0.0.1', port=app.config['runtime'].spec['port'], threaded=True)
+        return
     app = create_app()
     runtime: GridRuntime = app.config["RUNTIME"]
     app.run(host="127.0.0.1", port=runtime.spec["port"], threaded=True)

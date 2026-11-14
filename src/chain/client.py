@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import threading
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -35,6 +37,18 @@ TX_SUCCESS = 0
 _SDK_LOCK = threading.Lock()
 
 
+@dataclass(frozen=True)
+class SubmittedTransaction:
+    """RPC acknowledgement, not proof that a transaction has committed."""
+    tx_hash: str
+    started_ns: int
+    acknowledged_ns: int
+
+    @property
+    def broadcast_latency_ms(self) -> float:
+        return (self.acknowledged_ns-self.started_ns)/1_000_000
+
+
 @dataclass
 class ChainResult:
     ok: bool
@@ -44,6 +58,7 @@ class ChainResult:
     contract_address: str | None
     output: str | None
     raw: dict
+    receipt_latency_ms: float | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -53,6 +68,7 @@ class ChainResult:
             "blockNumber": self.block_number,
             "contractAddress": self.contract_address,
             "output": self.output,
+            "receiptLatencyMs": self.receipt_latency_ms,
         }
 
 
@@ -122,7 +138,10 @@ class ChainClient:
 
     def get_receipt(self, tx_hash: str) -> dict:
         with self._lock:
-            return self._client.getTransactionReceipt(tx_hash)
+            try:
+                return self._client.getTransactionReceipt(tx_hash)
+            except Exception as exc:
+                raise ProtocolError('CHAIN_UNAVAILABLE', f'read receipt failed: {exc}', retryable=True) from exc
 
     # -- contract interaction ---------------------------------------------
     def deploy(self, abi: list, bytecode: str, args: list | None = None) -> ChainResult:
@@ -135,11 +154,32 @@ class ChainClient:
 
     def send(self, to_address: str, abi: list, fn_name: str, args: list | None = None) -> ChainResult:
         with self._lock:
+            started = time.perf_counter_ns()
             try:
                 receipt = self._client.sendRawTransactionGetReceipt(to_address, abi, fn_name, args or [])
             except Exception as exc:  # noqa: BLE001
                 raise ProtocolError("CHAIN_UNAVAILABLE", f"send {fn_name} failed: {exc}", retryable=True) from exc
-        return self._normalise(receipt)
+            elapsed = (time.perf_counter_ns() - started) / 1_000_000
+        result = self._normalise(receipt)
+        result.receipt_latency_ms = elapsed
+        return result
+
+    def broadcast(self, to_address: str, abi: list, fn_name: str, args: list | None = None) -> SubmittedTransaction:
+        """Submit once without the SDK's fixed one-second receipt polling sleep.
+
+        Callers must independently establish committed state before reporting
+        success; receiving a transaction hash is only RPC acknowledgement.
+        """
+        with self._lock:
+            started = time.perf_counter_ns()
+            try:
+                tx_hash = self._client.sendRawTransaction(to_address, abi, fn_name, args or [])
+            except Exception as exc:
+                raise ProtocolError('TX_OUTCOME_UNKNOWN', f'broadcast {fn_name} outcome unknown: {exc}', retryable=True) from exc
+            acknowledged = time.perf_counter_ns()
+        if not isinstance(tx_hash, str) or re.fullmatch(r'0x[0-9a-fA-F]{64}', tx_hash) is None:
+            raise ProtocolError('TX_OUTCOME_UNKNOWN', 'submission returned no valid transaction hash', retryable=True)
+        return SubmittedTransaction(tx_hash, started, acknowledged)
 
     def call(self, to_address: str, abi: list, fn_name: str, args: list | None = None) -> Any:
         with self._lock:
@@ -154,7 +194,7 @@ class ChainClient:
             raise ProtocolError("TX_OUTCOME_UNKNOWN", f"unexpected receipt: {receipt!r}")
         status_raw = receipt.get("status")
         try:
-            status_code = int(status_raw, 16) if isinstance(status_raw, str) else int(status_raw or 0)
+            status_code = int(status_raw, 16) if isinstance(status_raw, str) else int(status_raw)
         except (TypeError, ValueError):
             status_code = -1
         ok = status_code == TX_SUCCESS

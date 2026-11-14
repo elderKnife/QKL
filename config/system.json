@@ -1,8 +1,7 @@
 {
   "experiment": {
-    "name": "研究生A最小验证实验：边缘→VPP（不上链），VPP→国网平台（仅根哈希上链）",
-    "runId": "RUN-MINI-001",
-    "version": "0.1.0"
+    "name": "3 VPP / 30 edges / 900 devices: root-only FISCO validation",
+    "version": "2.0.0"
   },
   "chain": {
     "groupId": 1,
@@ -15,9 +14,15 @@
       "node4": "http://127.0.0.1:8549"
     },
     "contract": {
-      "name": "RootHashRegistry",
+      "name": "RootHashRegistryV2",
       "address": "",
-      "abiFile": "contracts/build/RootHashRegistry.abi"
+      "abiFile": "contracts/build/RootHashRegistryV2.abi"
+    },
+    "evidenceFile": "config/chain-v2.json",
+    "confirmation": {
+      "method": "CHAIN_STATE",
+      "pollIntervalMs": 20,
+      "timeoutSeconds": 15
     }
   },
   "accounts": {
@@ -29,9 +34,133 @@
       "pem": "config/keys/vpp-a.pem",
       "rpcNode": "node1"
     },
+    "edge01": {
+      "pem": "config/keys/edge-01.pem",
+      "rpcNode": "node0"
+    },
+    "edge02": {
+      "pem": "config/keys/edge-02.pem",
+      "rpcNode": "node1"
+    },
+    "edge03": {
+      "pem": "config/keys/edge-03.pem",
+      "rpcNode": "node2"
+    },
+    "edge04": {
+      "pem": "config/keys/edge-04.pem",
+      "rpcNode": "node3"
+    },
+    "edge05": {
+      "pem": "config/keys/edge-05.pem",
+      "rpcNode": "node4"
+    },
+    "edge06": {
+      "pem": "config/keys/edge-06.pem",
+      "rpcNode": "node0"
+    },
+    "edge07": {
+      "pem": "config/keys/edge-07.pem",
+      "rpcNode": "node1"
+    },
+    "edge08": {
+      "pem": "config/keys/edge-08.pem",
+      "rpcNode": "node2"
+    },
+    "edge09": {
+      "pem": "config/keys/edge-09.pem",
+      "rpcNode": "node3"
+    },
+    "edge10": {
+      "pem": "config/keys/edge-10.pem",
+      "rpcNode": "node4"
+    },
     "vppB": {
       "pem": "config/keys/vpp-b.pem",
       "rpcNode": "node2"
+    },
+    "edge11": {
+      "pem": "config/keys/edge-11.pem",
+      "rpcNode": "node0"
+    },
+    "edge12": {
+      "pem": "config/keys/edge-12.pem",
+      "rpcNode": "node1"
+    },
+    "edge13": {
+      "pem": "config/keys/edge-13.pem",
+      "rpcNode": "node2"
+    },
+    "edge14": {
+      "pem": "config/keys/edge-14.pem",
+      "rpcNode": "node3"
+    },
+    "edge15": {
+      "pem": "config/keys/edge-15.pem",
+      "rpcNode": "node4"
+    },
+    "edge16": {
+      "pem": "config/keys/edge-16.pem",
+      "rpcNode": "node0"
+    },
+    "edge17": {
+      "pem": "config/keys/edge-17.pem",
+      "rpcNode": "node1"
+    },
+    "edge18": {
+      "pem": "config/keys/edge-18.pem",
+      "rpcNode": "node2"
+    },
+    "edge19": {
+      "pem": "config/keys/edge-19.pem",
+      "rpcNode": "node3"
+    },
+    "edge20": {
+      "pem": "config/keys/edge-20.pem",
+      "rpcNode": "node4"
+    },
+    "vppC": {
+      "pem": "config/keys/vpp-c.pem",
+      "rpcNode": "node3"
+    },
+    "edge21": {
+      "pem": "config/keys/edge-21.pem",
+      "rpcNode": "node0"
+    },
+    "edge22": {
+      "pem": "config/keys/edge-22.pem",
+      "rpcNode": "node1"
+    },
+    "edge23": {
+      "pem": "config/keys/edge-23.pem",
+      "rpcNode": "node2"
+    },
+    "edge24": {
+      "pem": "config/keys/edge-24.pem",
+      "rpcNode": "node3"
+    },
+    "edge25": {
+      "pem": "config/keys/edge-25.pem",
+      "rpcNode": "node4"
+    },
+    "edge26": {
+      "pem": "config/keys/edge-26.pem",
+      "rpcNode": "node0"
+    },
+    "edge27": {
+      "pem": "config/keys/edge-27.pem",
+      "rpcNode": "node1"
+    },
+    "edge28": {
+      "pem": "config/keys/edge-28.pem",
+      "rpcNode": "node2"
+    },
+    "edge29": {
+      "pem": "config/keys/edge-29.pem",
+      "rpcNode": "node3"
+    },
+    "edge30": {
+      "pem": "config/keys/edge-30.pem",
+      "rpcNode": "node4"
     }
   },
   "edges": [
@@ -42,56 +171,136 @@
       "vppUrl": "http://127.0.0.1:8201",
       "signingKey": "config/keys/edge-01.pem",
       "keyId": "edge-01-key-v1",
-      "devices": [
-        {
-          "deviceId": "PV-101",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-102",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-103",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-104",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "ES-101",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-102",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-103",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "CP-101",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-102",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-103",
-          "deviceType": "charger"
-        }
-      ],
-      "recordsPerPacket": 10,
-      "intervalSeconds": 10,
-      "autoStart": false,
+      "chainAccount": "edge01",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
         "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
-      }
+      },
+      "devices": [
+        {
+          "deviceId": "PV-01-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-01-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-01-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-01-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-01-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-01-10",
+          "deviceType": "charger"
+        }
+      ]
     },
     {
       "edgeId": "edge-02",
@@ -100,182 +309,4010 @@
       "vppUrl": "http://127.0.0.1:8201",
       "signingKey": "config/keys/edge-02.pem",
       "keyId": "edge-02-key-v1",
-      "devices": [
-        {
-          "deviceId": "PV-201",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-202",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-203",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-204",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "ES-201",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-202",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-203",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "CP-201",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-202",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-203",
-          "deviceType": "charger"
-        }
-      ],
-      "recordsPerPacket": 10,
-      "intervalSeconds": 10,
-      "autoStart": false,
+      "chainAccount": "edge02",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
         "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
-      }
+      },
+      "devices": [
+        {
+          "deviceId": "PV-02-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-02-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-02-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-02-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-02-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-02-10",
+          "deviceType": "charger"
+        }
+      ]
     },
     {
       "edgeId": "edge-03",
-      "vppId": "vpp-b",
+      "vppId": "vpp-a",
       "port": 8103,
-      "vppUrl": "http://127.0.0.1:8202",
+      "vppUrl": "http://127.0.0.1:8201",
       "signingKey": "config/keys/edge-03.pem",
       "keyId": "edge-03-key-v1",
-      "devices": [
-        {
-          "deviceId": "PV-301",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-302",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-303",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-304",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "ES-301",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-302",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-303",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "CP-301",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-302",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-303",
-          "deviceType": "charger"
-        }
-      ],
-      "recordsPerPacket": 10,
-      "intervalSeconds": 10,
-      "autoStart": false,
+      "chainAccount": "edge03",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
         "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
-      }
+      },
+      "devices": [
+        {
+          "deviceId": "PV-03-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-03-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-03-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-03-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-03-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-03-10",
+          "deviceType": "charger"
+        }
+      ]
     },
     {
       "edgeId": "edge-04",
-      "vppId": "vpp-b",
+      "vppId": "vpp-a",
       "port": 8104,
-      "vppUrl": "http://127.0.0.1:8202",
+      "vppUrl": "http://127.0.0.1:8201",
       "signingKey": "config/keys/edge-04.pem",
       "keyId": "edge-04-key-v1",
-      "devices": [
-        {
-          "deviceId": "PV-401",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-402",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-403",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "PV-404",
-          "deviceType": "pv"
-        },
-        {
-          "deviceId": "ES-401",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-402",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "ES-403",
-          "deviceType": "storage"
-        },
-        {
-          "deviceId": "CP-401",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-402",
-          "deviceType": "charger"
-        },
-        {
-          "deviceId": "CP-403",
-          "deviceType": "charger"
-        }
-      ],
-      "recordsPerPacket": 10,
-      "intervalSeconds": 10,
-      "autoStart": false,
+      "chainAccount": "edge04",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
         "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
-      }
+      },
+      "devices": [
+        {
+          "deviceId": "PV-04-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-04-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-04-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-04-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-04-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-04-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-05",
+      "vppId": "vpp-a",
+      "port": 8105,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-05.pem",
+      "keyId": "edge-05-key-v1",
+      "chainAccount": "edge05",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-05-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-05-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-05-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-05-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-05-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-05-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-06",
+      "vppId": "vpp-a",
+      "port": 8106,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-06.pem",
+      "keyId": "edge-06-key-v1",
+      "chainAccount": "edge06",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-06-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-06-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-06-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-06-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-06-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-06-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-07",
+      "vppId": "vpp-a",
+      "port": 8107,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-07.pem",
+      "keyId": "edge-07-key-v1",
+      "chainAccount": "edge07",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-07-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-07-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-07-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-07-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-07-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-07-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-08",
+      "vppId": "vpp-a",
+      "port": 8108,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-08.pem",
+      "keyId": "edge-08-key-v1",
+      "chainAccount": "edge08",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-08-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-08-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-08-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-08-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-08-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-08-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-09",
+      "vppId": "vpp-a",
+      "port": 8109,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-09.pem",
+      "keyId": "edge-09-key-v1",
+      "chainAccount": "edge09",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-09-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-09-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-09-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-09-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-09-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-09-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-10",
+      "vppId": "vpp-a",
+      "port": 8110,
+      "vppUrl": "http://127.0.0.1:8201",
+      "signingKey": "config/keys/edge-10.pem",
+      "keyId": "edge-10-key-v1",
+      "chainAccount": "edge10",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-10-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-10-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-10-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-10-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-10-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-10-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-11",
+      "vppId": "vpp-b",
+      "port": 8111,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-11.pem",
+      "keyId": "edge-11-key-v1",
+      "chainAccount": "edge11",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-11-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-11-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-11-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-11-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-11-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-11-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-12",
+      "vppId": "vpp-b",
+      "port": 8112,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-12.pem",
+      "keyId": "edge-12-key-v1",
+      "chainAccount": "edge12",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-12-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-12-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-12-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-12-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-12-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-12-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-13",
+      "vppId": "vpp-b",
+      "port": 8113,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-13.pem",
+      "keyId": "edge-13-key-v1",
+      "chainAccount": "edge13",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-13-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-13-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-13-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-13-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-13-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-13-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-14",
+      "vppId": "vpp-b",
+      "port": 8114,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-14.pem",
+      "keyId": "edge-14-key-v1",
+      "chainAccount": "edge14",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-14-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-14-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-14-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-14-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-14-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-14-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-15",
+      "vppId": "vpp-b",
+      "port": 8115,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-15.pem",
+      "keyId": "edge-15-key-v1",
+      "chainAccount": "edge15",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-15-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-15-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-15-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-15-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-15-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-15-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-16",
+      "vppId": "vpp-b",
+      "port": 8116,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-16.pem",
+      "keyId": "edge-16-key-v1",
+      "chainAccount": "edge16",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-16-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-16-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-16-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-16-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-16-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-16-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-17",
+      "vppId": "vpp-b",
+      "port": 8117,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-17.pem",
+      "keyId": "edge-17-key-v1",
+      "chainAccount": "edge17",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-17-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-17-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-17-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-17-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-17-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-17-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-18",
+      "vppId": "vpp-b",
+      "port": 8118,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-18.pem",
+      "keyId": "edge-18-key-v1",
+      "chainAccount": "edge18",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-18-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-18-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-18-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-18-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-18-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-18-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-19",
+      "vppId": "vpp-b",
+      "port": 8119,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-19.pem",
+      "keyId": "edge-19-key-v1",
+      "chainAccount": "edge19",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-19-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-19-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-19-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-19-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-19-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-19-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-20",
+      "vppId": "vpp-b",
+      "port": 8120,
+      "vppUrl": "http://127.0.0.1:8202",
+      "signingKey": "config/keys/edge-20.pem",
+      "keyId": "edge-20-key-v1",
+      "chainAccount": "edge20",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-20-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-20-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-20-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-20-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-20-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-20-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-21",
+      "vppId": "vpp-c",
+      "port": 8121,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-21.pem",
+      "keyId": "edge-21-key-v1",
+      "chainAccount": "edge21",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-21-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-21-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-21-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-21-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-21-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-21-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-22",
+      "vppId": "vpp-c",
+      "port": 8122,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-22.pem",
+      "keyId": "edge-22-key-v1",
+      "chainAccount": "edge22",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-22-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-22-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-22-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-22-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-22-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-22-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-23",
+      "vppId": "vpp-c",
+      "port": 8123,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-23.pem",
+      "keyId": "edge-23-key-v1",
+      "chainAccount": "edge23",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-23-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-23-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-23-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-23-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-23-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-23-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-24",
+      "vppId": "vpp-c",
+      "port": 8124,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-24.pem",
+      "keyId": "edge-24-key-v1",
+      "chainAccount": "edge24",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-24-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-24-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-24-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-24-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-24-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-24-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-25",
+      "vppId": "vpp-c",
+      "port": 8125,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-25.pem",
+      "keyId": "edge-25-key-v1",
+      "chainAccount": "edge25",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-25-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-25-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-25-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-25-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-25-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-25-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-26",
+      "vppId": "vpp-c",
+      "port": 8126,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-26.pem",
+      "keyId": "edge-26-key-v1",
+      "chainAccount": "edge26",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-26-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-26-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-26-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-26-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-26-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-26-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-27",
+      "vppId": "vpp-c",
+      "port": 8127,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-27.pem",
+      "keyId": "edge-27-key-v1",
+      "chainAccount": "edge27",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-27-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-27-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-27-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-27-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-27-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-27-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-28",
+      "vppId": "vpp-c",
+      "port": 8128,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-28.pem",
+      "keyId": "edge-28-key-v1",
+      "chainAccount": "edge28",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-28-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-28-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-28-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-28-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-28-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-28-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-29",
+      "vppId": "vpp-c",
+      "port": 8129,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-29.pem",
+      "keyId": "edge-29-key-v1",
+      "chainAccount": "edge29",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-29-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-29-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-29-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-29-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-29-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-29-10",
+          "deviceType": "charger"
+        }
+      ]
+    },
+    {
+      "edgeId": "edge-30",
+      "vppId": "vpp-c",
+      "port": 8130,
+      "vppUrl": "http://127.0.0.1:8203",
+      "signingKey": "config/keys/edge-30.pem",
+      "keyId": "edge-30-key-v1",
+      "chainAccount": "edge30",
+      "intervalSeconds": 30,
+      "recordsPerPacket": 30,
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      },
+      "devices": [
+        {
+          "deviceId": "PV-30-01",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-02",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-03",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-04",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-05",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-06",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-07",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-08",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-09",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "PV-30-10",
+          "deviceType": "pv"
+        },
+        {
+          "deviceId": "ES-30-01",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-02",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-03",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-04",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-05",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-06",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-07",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-08",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-09",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "ES-30-10",
+          "deviceType": "storage"
+        },
+        {
+          "deviceId": "CP-30-01",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-02",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-03",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-04",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-05",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-06",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-07",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-08",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-09",
+          "deviceType": "charger"
+        },
+        {
+          "deviceId": "CP-30-10",
+          "deviceType": "charger"
+        }
+      ]
     }
   ],
   "vpps": [
     {
       "vppId": "vpp-a",
       "port": 8201,
-      "gridUrl": "http://127.0.0.1:8301",
-      "rpcNode": "node1",
+      "chainAccount": "vppA",
       "signingKey": "config/keys/vpp-a.pem",
       "keyId": "vpp-a-key-v1",
+      "gridUrl": "http://127.0.0.1:8301",
       "trustedEdges": {
         "edge-01": {
           "keyId": "edge-01-key-v1",
@@ -284,9 +4321,40 @@
         "edge-02": {
           "keyId": "edge-02-key-v1",
           "publicKey": "0445317f2fc7e93df11c4739f1a716a5f30dca6647a0c0100a29f76c3adcfca676ca2843d7ab2c3cc64d093a5788d45e5cd6c33b72096437a8b695c8529b28a903"
+        },
+        "edge-03": {
+          "keyId": "edge-03-key-v1",
+          "publicKey": "0492d9dd17fbfb12576a5a2579880488b8f41e01a84de3ed1ec5066d0abb81e0205de691a4e8ab9293b3778ef32af8fb2e0aa22fd810cd469fd29048f4ccaa010a"
+        },
+        "edge-04": {
+          "keyId": "edge-04-key-v1",
+          "publicKey": "040cabb4e5d896892253c072645e5a5f98b734e8a2b11b7ae9a9e84f3acc6ebe361452dda0bbfd277088431c55fb3607dd44eede27a18580339ab26a0e09257228"
+        },
+        "edge-05": {
+          "keyId": "edge-05-key-v1",
+          "publicKey": "0429750c301d394541ebd30f4fe34eaca329735b9f7b5e560fe151c97808c5c5d6f370a83d3cd3a19cb2c2ca832643186d71bd0e984e56413c9a301d08504ba469"
+        },
+        "edge-06": {
+          "keyId": "edge-06-key-v1",
+          "publicKey": "04da60d9ac4da5b4b13c295e29f811ebb926db191b6b95c20a89a2aa98a71534bb447fa1ca453cf744bb1c2e655681213a5ec7c38bc5f323e174a2d79a4bd07f0e"
+        },
+        "edge-07": {
+          "keyId": "edge-07-key-v1",
+          "publicKey": "04e4376639b435a97fe09cd5bafb8412789a3d8c216173dae088f898dd06531ea0ca9548d9cd5da3050fe13f89171c24664164b22542545131bd5b5409520e1587"
+        },
+        "edge-08": {
+          "keyId": "edge-08-key-v1",
+          "publicKey": "045ff6cbb2d9a9d93a22a48d8157db0cb9e76cf4bc6b5b3df3200d8954e400034e31522e88f7d9c849c19bf828534c06153425b799d00aa352ec5debb8c3d43b92"
+        },
+        "edge-09": {
+          "keyId": "edge-09-key-v1",
+          "publicKey": "04f91289f6187d87df7d7ef3ebe3b4a467296750c745e079d94c6f4b86a8aad2dd78c6c0bd46b421aa1f320f23677a7f350b1e44da960eb37f82cea22d5df5eeba"
+        },
+        "edge-10": {
+          "keyId": "edge-10-key-v1",
+          "publicKey": "04b05aaab65e2fc6dc8288400ecf3d505675fd1f6d6e396aae7e509a060318b3723c140741f84d0a4eb0699cdfdcf4d4920abd9936345c086cf8f1802281144b91"
         }
       },
-      "chainAccount": "vppA",
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
@@ -296,21 +4364,107 @@
     {
       "vppId": "vpp-b",
       "port": 8202,
-      "gridUrl": "http://127.0.0.1:8301",
-      "rpcNode": "node2",
+      "chainAccount": "vppB",
       "signingKey": "config/keys/vpp-b.pem",
       "keyId": "vpp-b-key-v1",
+      "gridUrl": "http://127.0.0.1:8301",
       "trustedEdges": {
-        "edge-03": {
-          "keyId": "edge-03-key-v1",
-          "publicKey": "0492d9dd17fbfb12576a5a2579880488b8f41e01a84de3ed1ec5066d0abb81e0205de691a4e8ab9293b3778ef32af8fb2e0aa22fd810cd469fd29048f4ccaa010a"
+        "edge-11": {
+          "keyId": "edge-11-key-v1",
+          "publicKey": "045ff30d4fe3abc9c86a01630cde4f9ea4dc7ee52f181b18e7a8945580bd205930ac29368ca4f656c24b8a0ef2f6cdedf3f52db479343e9e4a81f0de6183541448"
         },
-        "edge-04": {
-          "keyId": "edge-04-key-v1",
-          "publicKey": "040cabb4e5d896892253c072645e5a5f98b734e8a2b11b7ae9a9e84f3acc6ebe361452dda0bbfd277088431c55fb3607dd44eede27a18580339ab26a0e09257228"
+        "edge-12": {
+          "keyId": "edge-12-key-v1",
+          "publicKey": "04f5dde7769ce7abaec9e98456f8bb010f49dd6c2b2fedccd72625da7939f49a62d6eedfb0a470027bc9be5048e9559bccc04722c17cc812c04819772d13760956"
+        },
+        "edge-13": {
+          "keyId": "edge-13-key-v1",
+          "publicKey": "04be5d9f66457ef7504f5ec90c047f1e68e179caac0f897d94ab1a0a168c12d3070897fbd3c7a9b4bab4b8d244b56ee388362e1aaf1a910e571ea2922142218f3d"
+        },
+        "edge-14": {
+          "keyId": "edge-14-key-v1",
+          "publicKey": "04c3b9d81a10bdb406a57cc7f00396273aa659e775f4795664ea9cf47f85ec40102a3202420a8af92f413deec7d617a01800b2f253eca3f719b0789bc9b2aa420a"
+        },
+        "edge-15": {
+          "keyId": "edge-15-key-v1",
+          "publicKey": "04d2e4cecb13b44b307ca1533d767b204300e2eed97532d85d3bad935872bdabad3f219ac9ff407bbe2519f5f489eea55ad4cfe07f1b446d3873dca111983dd20e"
+        },
+        "edge-16": {
+          "keyId": "edge-16-key-v1",
+          "publicKey": "04e9ed839363a300ae58eb0afc397f44ca06608274c97dd4ecbe16bcd3a6285206e9b0e10be4395a35c8b9a0a573ce11bcafceaeba6736eccc3bf5142f593656fc"
+        },
+        "edge-17": {
+          "keyId": "edge-17-key-v1",
+          "publicKey": "04e9dbd4f7a2daaf71ea22df6588e0ea35537da5b69242c6bd4707fdb9daa6c5b7450c76f5d367cb597efdee9f4ad61129b1430204134ae274aa2a0499fe137c1a"
+        },
+        "edge-18": {
+          "keyId": "edge-18-key-v1",
+          "publicKey": "0463297ed3e20d046374d9d5e5393a48b4aa9b3281a53b34ef9e8c7448bf6efd15648718eac6c24908d750bb77de9091c4ebf3cad23baf7c9b457ec3ebadb444e4"
+        },
+        "edge-19": {
+          "keyId": "edge-19-key-v1",
+          "publicKey": "04cc1fb22b14218ad42d89e69e8e03cf59f6aa19b5e668cad3dcf3529a95da1a2c834db829e1bca6ae9b075fd73500071ab502ec4312fb12e710e78de685c511c9"
+        },
+        "edge-20": {
+          "keyId": "edge-20-key-v1",
+          "publicKey": "04356d684f5b03a3ff8aaf7b84edfb3cd66e449b08a0dde5863f764d7a3171200ddbb4f329b08ead2fbeff639d0abccbbed7bf652920381af42cc027914ab5e127"
         }
       },
-      "chainAccount": "vppB",
+      "trustedGrid": {
+        "gridId": "grid",
+        "keyId": "grid-key-v1",
+        "publicKey": "049fab39512794d81a897f2c6ff07110af05722b3ad40da699497240233a3323a6730646e4adbb00cc121e588e1a4c8f0f798f003463af3fb45baea5b337f8fb5b"
+      }
+    },
+    {
+      "vppId": "vpp-c",
+      "port": 8203,
+      "chainAccount": "vppC",
+      "signingKey": "config/keys/vpp-c.pem",
+      "keyId": "vpp-c-key-v1",
+      "gridUrl": "http://127.0.0.1:8301",
+      "trustedEdges": {
+        "edge-21": {
+          "keyId": "edge-21-key-v1",
+          "publicKey": "0492ad3b553a48c31e8cb82d00023751346db40684937311fe15f1dc41e085daa3ecea9873be5040e196a1f2f48b991e605031a5ff6e90d4d6e87a169e2c9a8ec5"
+        },
+        "edge-22": {
+          "keyId": "edge-22-key-v1",
+          "publicKey": "047493ec58f7ebae97d8ea3a535271f9d1f04e735a2e44cc0e8c507f5590860cc5b7e699fc2cdcd7bd8d693b0e4e909d7d6ef85c9792dfa8a40bc08ae9398b9ec8"
+        },
+        "edge-23": {
+          "keyId": "edge-23-key-v1",
+          "publicKey": "046153a4514963d02baf3c88f96c15d4603dd56944d8fbd58c5933bb7c9db3991f58cc62b7a9af90c81b4fa1f536276d61f9ac1dfd48f6355b540b15c08fa7ca1f"
+        },
+        "edge-24": {
+          "keyId": "edge-24-key-v1",
+          "publicKey": "0424928bb1958a94a2d15f5de4f56d36aad285c9f0070473bd1e00fd59d685469b22931223524709610eb35d3dfd04d93cc074528e65972d12a715082c930a2244"
+        },
+        "edge-25": {
+          "keyId": "edge-25-key-v1",
+          "publicKey": "04843507d30146caec3c8841816363a8fe63f23b7526c880e44e2678d5e341e3c414d84b5f3a5c521ddd801152346c912ff34eb0bba1b9198ea18e82ad7e74082b"
+        },
+        "edge-26": {
+          "keyId": "edge-26-key-v1",
+          "publicKey": "04c3e240bba42215fbe0bd8db7cca479b7be6757a952078ac7b4b1b2299b23df417532bad69b3885ce477c4cce425329297ec6611207816c31a33d5d5402565f18"
+        },
+        "edge-27": {
+          "keyId": "edge-27-key-v1",
+          "publicKey": "04fb186fedaccba809318346543ef6a85e4f81dbe9628471b1e016dd1cb99bc8367040a446b1d060c8ec91fcfc93d8d801994f6d9e0c1abe8df276a4c77a816c85"
+        },
+        "edge-28": {
+          "keyId": "edge-28-key-v1",
+          "publicKey": "0436f49a6d1ed6aa4885150784ba14a2c67ed2e9110f10f63d326896087188cc50a43d68cb32c16a2c0952dbe93df80e608153e159bf9e0e4e68c0a204348f3c7d"
+        },
+        "edge-29": {
+          "keyId": "edge-29-key-v1",
+          "publicKey": "040a35f87b159abb4890b6f568aee8a103224d4e63a8ad5108098ab45a2d17df73ef4a931b3f9470f88a2788038157ee2e18ce9d648059d303d8ff3f6fa768fd0d"
+        },
+        "edge-30": {
+          "keyId": "edge-30-key-v1",
+          "publicKey": "0447550459fad0f08fc3db8989f54314d6c56736fbf733445e9ca48e8bf232a11337ed06167838f70573fa79cf6bd735418067197735d7d9304fabbb7c305dab9a"
+        }
+      },
       "trustedGrid": {
         "gridId": "grid",
         "keyId": "grid-key-v1",
@@ -331,17 +4485,65 @@
       "vpp-b": {
         "keyId": "vpp-b-key-v1",
         "publicKey": "04a2be672c781bdd977320b9ba466cd44f763be08317dd2c0e61f4a2c3f642607b707302c107ee4d9c4f3b7b66c02968f6e20ff307b37f231bc13f5203d6ea1c51"
+      },
+      "vpp-c": {
+        "keyId": "vpp-c-key-v1",
+        "publicKey": "04c7c5a453322d97a5d1e029023f5712d5c4a2a446a29474c563a1d7239f571e64502740751c189d37016829af571808a4cb5afb5cbcbd90613a04897869d40001"
       }
     },
     "gridId": "grid",
     "commandTtlSeconds": 120
   },
   "edge": {
-    "maxBufferRecords": 400,
-    "defaultIntervalSeconds": 10
+    "defaultIntervalSeconds": 30,
+    "maxBufferRecords": 900
   },
   "web": {
     "port": 8400,
     "description": "只读聚合可视化面板"
+  },
+  "pipeline": {
+    "version": 2,
+    "dataRoot": "data/v2",
+    "edgeIntervalSeconds": 30,
+    "edgesPerVpp": 10,
+    "devicesPerEdge": 30,
+    "batchesPerGroup": 40
+  },
+  "subjects": {
+    "grid": "0xEAbc348961939247532123544dcBC7140E5465Cc",
+    "vpp-a": "0xAa8d4CF29a7c8f209B196c461A0Ceb5D40A3B800",
+    "vpp-b": "0x7D89149E6cB72E3cCda68A8142B1f842E0c6E381",
+    "vpp-c": "0x594FB6E603e0d3d8380Aef3b8C506988FcC1EF23",
+    "edge-01": "0x60A234e52479DC19C3585833b00902b1Bbe6dC9c",
+    "edge-02": "0x63da73b147d350F960dF9130C7a8c072525f9Eb3",
+    "edge-03": "0x210f5939A65DD4e2651e2530Bdb586Ba6Ab63E6e",
+    "edge-04": "0x69bB1dE9298Cb8c8C67DE73614345B5a0e4Dce41",
+    "edge-05": "0xA55A18F4BcfeAA87a986D6bf9d02baf8b7C0FBa3",
+    "edge-06": "0x491ce3da0282BBB4c735fB51a4F85ce31954F5Fb",
+    "edge-07": "0xB4718Af4ca8B7228AABbF83184bB6d5db6E3eBec",
+    "edge-08": "0xC3e9030d3F78A1282AA6d399a4062d90518d9752",
+    "edge-09": "0x847a55f0C20AFB8d61b9Ac5CeBe250f9e81c24f5",
+    "edge-10": "0xfB729171fBf31459d711c26CE64c4Ae4E1A95162",
+    "edge-11": "0x624aF38F976Bc20eB0e8C7458a0AAa3043700881",
+    "edge-12": "0xdE55FC6633829d93f7Ce56f0199B4eeE4888a9B4",
+    "edge-13": "0xc2E6Fa2A5c30e90c5853853fB9897E1D5158E6Bb",
+    "edge-14": "0x9d2C68FDB7F8265A5c9d20cEeF4e602f88864e77",
+    "edge-15": "0x90c2217959Fb8B6306453D0D2c050913b1EC06d1",
+    "edge-16": "0x7a51753F3e18b782d00a99A830b5a01e20614307",
+    "edge-17": "0x1c1b1FacDAB3976514Db386020BEF48c664958aB",
+    "edge-18": "0xC7805D230401A5236abe5EB1E6b2E7Ede49e2f04",
+    "edge-19": "0xba4a807129Aa10946B2226B6c753E83a1C159F71",
+    "edge-20": "0x114eA4348B87abFc1A59e3C1Cd4152E6a94c728B",
+    "edge-21": "0x7f954CbA0E0104C2748bBAB1657067Cf5FcfFF12",
+    "edge-22": "0xd2842E0683Ed8E994706163eEB92bBFB23567511",
+    "edge-23": "0xfe1576647E77781996e4a684Fe79323d3e0b833c",
+    "edge-24": "0xeD9EC151B318d2dCa41dA77619b119B247b5195C",
+    "edge-25": "0x3C1099cf60C00ABb3D74c4A1b914FE5C52B16DDf",
+    "edge-26": "0x329de32E2328c4723CFb1B53D7708BCe31C8098c",
+    "edge-27": "0xf61E71F4492b4De5D2d578cD98bB5D274668bdEF",
+    "edge-28": "0x1aFaB56eE54Fe18Be1593f80e9DA77599E7D4EDb",
+    "edge-29": "0xc99767123C0aE68141eFCB8DFD3594BdCd5BE3eb",
+    "edge-30": "0x07Cf6A15cFAe6A70eA4392A5645862cf02e026fC"
   }
 }

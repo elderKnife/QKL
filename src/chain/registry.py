@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..common.models import ProtocolError
-from .client import ChainClient, ChainResult
+from .client import ChainClient, ChainResult, SubmittedTransaction
 
 
 @dataclass(frozen=True)
@@ -80,6 +80,13 @@ class RootHashRegistry:
             schema_version=str(schema),
             exists=True,
         )
+
+    def broadcast_batch(self, batch_id: str, root_hex: str, record_count: int,
+                        submitted_at: int, subject_id: str, schema: str) -> SubmittedTransaction:
+        if len(root_hex) != 64:
+            raise ProtocolError('INVALID_SCHEMA', 'root must be 64 hex chars')
+        return self.client.broadcast(self.address, self.abi, 'registerBatch',
+                                     [batch_id, '0x'+root_hex, int(record_count), int(submitted_at), subject_id, schema])
 
     def set_authorized(self, account: str, allowed: bool) -> ChainResult:
         return self.client.send(self.address, self.abi, "setAuthorized", [account, bool(allowed)])

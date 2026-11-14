@@ -2,6 +2,11 @@
 
 set -e
 
+if [ "${BASH_VERSINFO[0]}" -lt 5 ]; then
+    echo "Bash 5+ is required. On macOS use the Bash installed by Homebrew; see docs/07-在其他电脑上运行.md." >&2
+    exit 1
+fi
+
 # default value
 ca_path= #CA key
 gmca_path= #gm CA key
@@ -251,7 +256,7 @@ check_env() {
         macOS="macOS"
     fi
 
-    [ ! -z "$(openssl version | grep 1.0.2)" ] || [ ! -z "$(openssl version | grep 1.1)" ] || [ ! -z "$(openssl version | grep 3.)" ] || {
+    openssl version | grep -Eq '^OpenSSL (1\.0\.2|1\.1\.|[3-9]\.|[1-9][0-9]+\.)' || {
         echo "Openssl higher than 1.0.2 is required, you should install openssl first Or use \"openssl version\" command to check whether the openssl version is suitable."
        #echo "download openssl from https://www.openssl.org."
       exit 1

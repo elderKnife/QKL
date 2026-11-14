@@ -54,12 +54,13 @@ def main() -> int:
     parser.add_argument("--force", action="store_true", help="regenerate keys (invalidates existing evidence)")
     args = parser.parse_args()
 
-    keys = {role: ensure_key(role, args.force) for role in ROLES}
-    pub = {role: public_key(path) for role, path in keys.items()}
-
     config_path = os.path.join(PROJECT_ROOT, "config", "system.json")
     with open(config_path, "r", encoding="utf-8") as handle:
         config = json.load(handle)
+    roles = ['grid']+[v['vppId'] for v in config['vpps']]+[e['edgeId'] for e in config['edges']]
+    keys = {role: ensure_key(role, args.force) for role in roles}
+    pub = {role: public_key(path) for role, path in keys.items()}
+    config['subjects'] = {role: address(path) for role, path in keys.items()}
     for vpp in config["vpps"]:
         for edge_id, trusted in vpp["trustedEdges"].items():
             trusted["publicKey"] = pub[edge_id]
@@ -77,7 +78,7 @@ def main() -> int:
         json.dump(config, handle, indent=2, ensure_ascii=False)
 
     print("\nrole        address                                      keyId")
-    for role in ROLES:
+    for role in roles:
         print(f"{role:10s}  {address(keys[role])}  {role}-key-v1")
     print(f"\nconfig updated: {config_path}")
     return 0

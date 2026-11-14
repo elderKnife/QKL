@@ -12,3 +12,7 @@ config/keys/
 .DS_Store
 chain/bin/
 tools/solc
+tools/solcjs/
+# Deployment evidence belongs to the local chain and must be regenerated.
+config/chain-v2.json
+config/backups/

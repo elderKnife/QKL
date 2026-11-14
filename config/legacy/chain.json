@@ -1,0 +1,28 @@
+{
+  "contractName": "RootHashRegistry",
+  "address": "0x84a6b44075d322c9ec76f9a68fa194b0c0258c5e",
+  "deployer": "0xEAbc348961939247532123544dcBC7140E5465Cc",
+  "deployTxHash": "0x2b778039767c516bee8137b3bf48052a9e61ea4f44fa17f5403a96d411c17247",
+  "deployBlockNumber": 1,
+  "rpcUrl": "http://127.0.0.1:8545",
+  "groupId": 1,
+  "chainId": 1,
+  "deployedAt": 1793794378592,
+  "authorizations": [
+    {
+      "role": "vppA",
+      "address": "0xAa8d4CF29a7c8f209B196c461A0Ceb5D40A3B800",
+      "txHash": "0x540b6573ed642db1ddab7100306b0888d475b38714baffc52c6e6d66f7efe962",
+      "blockNumber": 2,
+      "status": "CONFIRMED"
+    },
+    {
+      "role": "vppB",
+      "address": "0x7D89149E6cB72E3cCda68A8142B1f842E0c6E381",
+      "txHash": "0xedffa0dab756f6c674f0641d7b406d415d80146a5c2e96d79e2561ff8d86ea85",
+      "blockNumber": 3,
+      "status": "CONFIRMED"
+    }
+  ],
+  "owner": "0xeabc348961939247532123544dcbc7140e5465cc"
+}

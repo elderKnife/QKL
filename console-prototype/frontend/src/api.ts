@@ -8,7 +8,7 @@ export class APIError extends Error {
 
 export async function api<T = Row>(path: string, options: { method?: string; key?: string; body?: Row } = {}): Promise<T> {
   const controller = new AbortController()
-  const timer = window.setTimeout(() => controller.abort(), 18000)
+  const timer = window.setTimeout(() => controller.abort(), options.method === 'POST' ? 210000 : 25000)
   try {
     const headers: Record<string, string> = {}
     if (options.method === 'POST') {
@@ -43,7 +43,7 @@ export function query(values: Row): string {
 
 export function date(value: unknown): string {
   if (!value) return '未记录'
-  const time = new Date(String(value))
+  const time = new Date(typeof value === 'number' ? value : String(value))
   if (Number.isNaN(time.getTime())) return '未记录'
   return new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(time)
 }

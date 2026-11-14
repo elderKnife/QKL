@@ -25,6 +25,7 @@ def build_registry(
         group_id=int(config["chain"].get("groupId", 1)),
         chain_id=int(config["chain"].get("chainId", 1)),
     )
-    abi, _ = load_artifacts(os.path.join(PROJECT_ROOT, "contracts", "build"))
+    name = config.get('chain', {}).get('contract', {}).get('name', 'RootHashRegistry')
+    abi, _ = load_artifacts(os.path.join(PROJECT_ROOT, "contracts", "build"), name)
     registry = RootHashRegistry(client, contract_address(config), abi)
     return client, registry

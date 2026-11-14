@@ -1,8 +1,8 @@
 """Configuration loading for the validation experiment.
 
 One JSON file (``config/system.json``) describes every logical role.  Each
-service loads it at start-up and only reads its own section; the edge process
-in particular has no chain section at all.
+service loads it at start-up. In V2 every edge and VPP has an independently
+bound chain publisher; the v1 topology remains archived in config/legacy.
 """
 from __future__ import annotations
 
@@ -36,6 +36,10 @@ def resolve_path(path: str) -> str:
     return os.path.join(PROJECT_ROOT, path)
 
 
+def data_path(config: dict, *parts: str) -> str:
+    return resolve_path(os.path.join(config.get('pipeline', {}).get('dataRoot', 'data'), *parts))
+
+
 @dataclass(frozen=True)
 class EdgeSpec:
     edgeId: str
@@ -63,7 +67,7 @@ def vpp_specs(config: dict) -> dict[str, dict]:
 
 
 def load_chain_evidence(config: dict) -> dict:
-    path = os.path.join(PROJECT_ROOT, "config", "chain.json")
+    path = resolve_path(config.get('chain', {}).get('evidenceFile', 'config/chain.json'))
     if not os.path.exists(path):
         return {}
     with open(path, "r", encoding="utf-8") as handle:
@@ -75,5 +79,6 @@ def load_chain_evidence(config: dict) -> dict:
 def contract_address(config: dict) -> str:
     address = (config.get("chain", {}).get("contract", {}) or {}).get("address") or load_chain_evidence(config).get("address")
     if not address:
-        raise ConfigError("no RootHashRegistry address; run scripts/deploy_contract.py first")
+        deploy_script = 'deploy_v2.py' if config.get('pipeline', {}).get('version') == 2 else 'deploy_contract.py'
+        raise ConfigError(f"no deployed registry address; run scripts/{deploy_script} first")
     return address

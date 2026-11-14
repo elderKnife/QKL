@@ -25,7 +25,7 @@ import requests
 from flask import Flask, jsonify, request
 
 from ..common.canonical import canonical_bytes, canonical_sha256
-from ..common.config import load_config, resolve_path
+from ..common.config import load_config, resolve_path, data_path
 from ..common.crypto import Signer, verify_bytes
 from ..common.http import error_response, ok, read_json
 from ..common.models import (
@@ -69,7 +69,7 @@ class EdgeRuntime:
         self.last_round_at: str | None = None
         self.last_packet_id: str | None = None
         self.run_id: str | None = None
-        self.data_dir = resolve_path(os.path.join("data", self.edge_id))
+        self.data_dir = data_path(config, self.edge_id)
         os.makedirs(self.data_dir, exist_ok=True)
         self._load_state()
 
@@ -515,6 +515,13 @@ def create_app(config_path: str | None = None, edge_id: str | None = None) -> Fl
 
 
 def main() -> None:
+    if load_config().get('pipeline', {}).get('version') == 2:
+        from ..pipeline.apps import edge_app
+        config = load_config()
+        edge_id = os.environ.get('EDGE_ID', config['edges'][0]['edgeId'])
+        app = edge_app(config, next(e for e in config['edges'] if e['edgeId']==edge_id))
+        app.run(host='127.0.0.1', port=app.config['runtime'].spec['port'], threaded=True)
+        return
     app = create_app()
     runtime: EdgeRuntime = app.config["RUNTIME"]
     if runtime.spec.get("autoStart"):

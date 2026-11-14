@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Stop only the five business services; the chain keeps running.
+# Stop the configured business services; the chain keeps running.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PIDFILE="$ROOT/logs/services/pids.txt"

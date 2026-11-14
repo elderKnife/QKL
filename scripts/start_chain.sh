@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 NODES="$ROOT/chain/nodes/127.0.0.1"
 if [ ! -d "$NODES" ]; then
-  echo "chain not built; run scripts/build_chain.sh first" >&2
+  echo "chain not built; follow docs/07-在其他电脑上运行.md to run chain/build_chain.sh with Bash 5" >&2
   exit 1
 fi
 bash "$NODES/start_all.sh"

@@ -1,88 +1,45 @@
-"""Architecture tests: the edge side must not depend on the blockchain.
-
-These tests are the machine-checkable part of the experiment's central claim:
-edge <-> VPP uses a direct data link, and only VPP <-> grid touches the chain.
-"""
-from __future__ import annotations
-
-import os
-import subprocess
-import sys
+"""Machine-checked V2 topology and ownership of local root publishers."""
 import unittest
+from pathlib import Path
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, PROJECT_ROOT)
-
-CHAIN_TOKENS = ("src.chain", "bcosclient", "client.bcosclient", "web3", "fisco")
+from src.common.config import load_config
 
 
-class EdgeHasNoChainDependency(unittest.TestCase):
-    def test_edge_service_source_has_no_chain_imports(self):
-        path = os.path.join(PROJECT_ROOT, "src", "edge", "service.py")
-        with open(path, "r", encoding="utf-8") as handle:
-            source = handle.read()
-        for token in CHAIN_TOKENS:
-            self.assertNotIn(f"import {token}", source, f"edge service must not import {token}")
-            self.assertNotIn(f"from {token}", source, f"edge service must not import from {token}")
+class V2ArchitectureTests(unittest.TestCase):
+    def setUp(self):
+        self.config = load_config()
 
-    def test_importing_edge_service_does_not_load_sdk(self):
-        code = (
-            "import sys;"
-            f"sys.path.insert(0, {PROJECT_ROOT!r});"
-            "import src.edge.service;"
-            "assert 'client.bcosclient' not in sys.modules, 'chain SDK loaded in edge process';"
-            "assert not any(m.startswith('src.chain') for m in sys.modules), 'chain adapter loaded in edge process';"
-            "print('edge process has no chain modules')"
-        )
-        result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, cwd=PROJECT_ROOT)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("no chain modules", result.stdout)
+    def test_topology_3_by_10_by_30(self):
+        cfg = self.config
+        self.assertEqual(len(cfg['vpps']), 3)
+        self.assertEqual(len(cfg['edges']), 30)
+        devices = [d['deviceId'] for e in cfg['edges'] for d in e['devices']]
+        self.assertEqual(len(devices), 900)
+        self.assertEqual(len(set(devices)), 900)
+        for vpp in cfg['vpps']:
+            edges = [e for e in cfg['edges'] if e['vppId'] == vpp['vppId']]
+            self.assertEqual(len(edges), 10)
+            self.assertEqual(set(vpp['trustedEdges']), {e['edgeId'] for e in edges})
+            self.assertTrue(all(len(e['devices']) == 30 for e in edges))
+            self.assertTrue(all(e['intervalSeconds'] == 30 for e in edges))
 
-    def test_vpp_and_grid_do_use_chain(self):
-        for module in ("src.vpp.service", "src.grid.service"):
-            path = os.path.join(PROJECT_ROOT, *module.split(".")) + ".py"
-            with open(path, "r", encoding="utf-8") as handle:
-                source = handle.read()
-            self.assertIn("..chain.factory", source, f"{module} should use the chain adapter")
+    def test_all_publishers_have_distinct_chain_identities(self):
+        cfg = self.config
+        roles = [v['chainAccount'] for v in cfg['vpps']] + [e['chainAccount'] for e in cfg['edges']]
+        self.assertEqual(len(roles), len(set(roles)))
+        self.assertTrue(all(role in cfg['accounts'] for role in roles))
+        self.assertEqual(len(set(a.lower() for a in cfg['subjects'].values())), 34)
+        for module in ('edge', 'vpp', 'grid'):
+            self.assertIn('.anchors import Anchors', (Path(__file__).parents[1]/'src/pipeline'/f'{module}.py').read_text())
 
-    def test_topology_is_four_edges_ten_devices_each(self):
-        import json
-
-        with open(os.path.join(PROJECT_ROOT, "config", "system.json"), encoding="utf-8") as handle:
-            config = json.load(handle)
-        self.assertEqual(len(config["edges"]), 4)
-        all_devices = []
-        for edge in config["edges"]:
-            self.assertEqual(len(edge["devices"]), 10, edge["edgeId"])
-            all_devices.extend(device["deviceId"] for device in edge["devices"])
-        self.assertEqual(len(all_devices), 40)
-        self.assertEqual(len(set(all_devices)), 40, "device ids must be globally unique")
-
-    def test_each_vpp_serves_two_edges(self):
-        import json
-
-        with open(os.path.join(PROJECT_ROOT, "config", "system.json"), encoding="utf-8") as handle:
-            config = json.load(handle)
-        mapping = {}
-        for edge in config["edges"]:
-            mapping.setdefault(edge["vppId"], []).append(edge["edgeId"])
-        self.assertEqual(sorted(mapping["vpp-a"]), ["edge-01", "edge-02"])
-        self.assertEqual(sorted(mapping["vpp-b"]), ["edge-03", "edge-04"])
-        for vpp in config["vpps"]:
-            self.assertEqual(len(vpp["trustedEdges"]), 2)
-            self.assertIn("trustedGrid", vpp)
-        for edge in config["edges"]:
-            self.assertIn("trustedGrid", edge)
-
-    def test_edge_config_has_no_chain_section(self):
-        import json
-
-        with open(os.path.join(PROJECT_ROOT, "config", "system.json"), encoding="utf-8") as handle:
-            config = json.load(handle)
-        for edge in config["edges"]:
-            self.assertNotIn("chain", edge)
-            self.assertNotIn("account", edge)
+    def test_legacy_history_and_v2_storage_are_separate(self):
+        cfg = self.config
+        self.assertEqual(cfg['pipeline']['version'], 2)
+        self.assertEqual(cfg['pipeline']['dataRoot'], 'data/v2')
+        self.assertEqual(cfg['chain']['evidenceFile'], 'config/chain-v2.json')
+        self.assertEqual(cfg['chain']['contract']['name'], 'RootHashRegistryV2')
+        self.assertTrue((Path(__file__).parents[1]/'config/legacy/system.json').exists())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
